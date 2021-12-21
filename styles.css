@@ -1,0 +1,56 @@
+body {
+  background-color: rgb(173, 173, 173);
+  font-family: cursive; 
+}
+
+@font-face {
+  font-family: myFirstFont;
+  src: url(sansation_bold.woff);
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+}
+
+.cabinet {
+  display: flex;
+  align-items: stretch;
+  background-color: gray;
+  flex-grow: 1;
+}
+
+.rules {
+  background-color: DodgerBlue;
+  color: white;
+  /* width: 100px; */
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  flex: 1;
+  /* align-self:center; */
+  
+}
+
+.board {
+  background-color: DodgerBlue;
+  color: white;
+  /* width: 100px; */
+  margin: 10px;
+  text-align: center;
+  line-height: 500px;
+  font-size: 30px;
+  flex: 3;
+}
+
+.score {
+  background-color: DodgerBlue;
+  color: white;
+  /* width: 100px; */
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+  flex: 1;
+}
