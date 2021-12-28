@@ -7,16 +7,17 @@ let playerScore = 0;
 
 let showingWinScreen = false;
 
-let snakeX = 0;
-let snakeY = 20;
-let snakeWidth = 20;
-let snakeHeight = 20;
-let snakeSpeed = 20;
+let snakeX = 1;
+let snakeY = 1;
+let snakeWidth = 18;
+let snakeHeight = 18;
+const SNAKE_MOVEMENT = 20;
+let snakeSpeed = 10000;
 
-let appleX = 20;
-let appleY = 0;
-const APPLE_WIDTH = 20;
-const APPLE_HEIGHT = 20;
+let appleX = 21;
+let appleY = 1;
+const APPLE_WIDTH = 18;
+const APPLE_HEIGHT = 18;
 
 window.onload = function () {
   canvas = document.getElementById('gameCanvas');
@@ -27,25 +28,35 @@ window.onload = function () {
   setInterval(function() {
     drawEverything();
     moveEverything();
-  }, 20000/framesPerSecond);
+  }, snakeSpeed/framesPerSecond);
 
 }
 
 function drawEverything () {
   //game board
   colorRect(0,0,canvas.width,canvas.height,'#9E9E9E'); 
+  colorRect(0,0,1,600,'black');
+  colorRect(0,0,600,1,'black');
+
+  //grid
+  grid();
 
   //snake
   colorRect(snakeX,snakeY,snakeWidth,snakeHeight,'#70FF59');
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
-}
 
+  // //fly -- issue with black circle around wings
+  // colorCircle(30, 30, 5, 'black');
+  // colorCircle(25, 25, 2, 'white');
+  // colorCircle(35, 25, 2, 'white');
+}
 
 function moveEverything() {
 
-  snakeX += snakeSpeed;
+  snakeY += SNAKE_MOVEMENT;
+  // snakeSpeed -= 10000;
   
   // //left wall
   // if (ballX < 10) {
@@ -82,6 +93,22 @@ function moveEverything() {
   // } 
 }
 
+function grid() {
+  for (var i=20; i<=800; i += 20)
+  {
+    //vertical lines
+    canvasContext.moveTo(i,0);
+    canvasContext.lineTo(i,805);
+
+    //horizontal lines
+    canvasContext.moveTo(0,i);
+    canvasContext.lineTo(805,i);
+
+    canvasContext.strokeStyle='black';
+    canvasContext.stroke();
+  }
+}
+
 function colorRect(leftX, topY, width, height, drawColor) {
   canvasContext.fillStyle = drawColor;
   canvasContext.fillRect(leftX, topY, width, height); 
@@ -93,12 +120,6 @@ function colorCircle(centerX, centerY, radius, drawColor) {
   canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
   canvasContext.fill();
 }
-
-
-// function resetBall() {
-//   ballX = 25;
-// }
-
 
 // function drawFly () {
 //   canvasContext.beginPath();
