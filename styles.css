@@ -3,12 +3,6 @@ body {
   font-family: cursive; 
 }
 
-@font-face {
-  font-family: myFirstFont;
-  src: url(sansation_bold.woff);
-  font-weight: bold;
-}
-
 h1 {
   text-align: center;
 }
