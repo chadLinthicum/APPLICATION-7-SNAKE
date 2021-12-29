@@ -1,10 +1,7 @@
 let canvas;
-let canvasContext;
-
-scorePlacement = 200;
+let ctx;
 
 let playerScore = 0;
-
 let showingWinScreen = false;
 
 let snakeX = 1;
@@ -21,7 +18,7 @@ const APPLE_HEIGHT = 18;
 
 window.onload = function () {
   canvas = document.getElementById('gameCanvas');
-  canvasContext = canvas.getContext('2d');
+  ctx = canvas.getContext('2d');
 
   let framesPerSecond = 30;
 
@@ -33,13 +30,21 @@ window.onload = function () {
   canvas.addEventListener('keypress', handleKeyPress);
 }
 
-function handleKeyPress(e) {
+function handleKeyPress(event) {
   console.log(event.keyCode);
 }
 
 function drawEverything () {
   //game board
-  colorRect(0,0,canvas.width,canvas.height,'#9E9E9E'); 
+  var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
+  gradient.addColorStop(0, "#934B22");
+  gradient.addColorStop(1, "#562E17");
+
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, canvas.width,canvas.height);
+
+
+  // colorRect(0,0,canvas.width,canvas.height,'#9E9E9E'); 
   colorRect(0,0,1,600,'black');
   colorRect(0,0,600,1,'black');
 
@@ -102,44 +107,44 @@ function grid() {
   for (var i=20; i<=800; i += 20)
   {
     //vertical lines
-    canvasContext.moveTo(i,0);
-    canvasContext.lineTo(i,805);
+    ctx.moveTo(i,0);
+    ctx.lineTo(i,805);
 
     //horizontal lines
-    canvasContext.moveTo(0,i);
-    canvasContext.lineTo(805,i);
+    ctx.moveTo(0,i);
+    ctx.lineTo(805,i);
 
-    canvasContext.strokeStyle='black';
-    canvasContext.stroke();
+    ctx.strokeStyle='black';
+    ctx.stroke();
   }
 }
 
 function colorRect(leftX, topY, width, height, drawColor) {
-  canvasContext.fillStyle = drawColor;
-  canvasContext.fillRect(leftX, topY, width, height); 
+  ctx.fillStyle = drawColor;
+  ctx.fillRect(leftX, topY, width, height); 
 }
 
 function colorCircle(centerX, centerY, radius, drawColor) {
-  canvasContext.fillStyle = drawColor;
-  canvasContext.beginPath();
-  canvasContext.arc(centerX, centerY, radius, 0, Math.PI*2, true);
-  canvasContext.fill();
+  ctx.fillStyle = drawColor;
+  ctx.beginPath();
+  ctx.arc(centerX, centerY, radius, 0, Math.PI*2, true);
+  ctx.fill();
 }
 
 // function drawFly () {
-//   canvasContext.beginPath();
-//   canvasContext.arc(110, 65, 5, 0, 2 * Math.PI);
-//   canvasContext.stroke();
-//   canvasContext.fillStyle = 'white';
-//   canvasContext.fill();
-//   canvasContext.beginPath();
-//   canvasContext.arc(90, 65, 5, 0, 2 * Math.PI);
-//   canvasContext.stroke();
-//   canvasContext.fillStyle = 'white';
-//   canvasContext.fill();
-//   canvasContext.beginPath();
-//   canvasContext.arc(100, 75, 10, 0, 2 * Math.PI);
-//   canvasContext.stroke();
-//   canvasContext.fillStyle = 'black';
-//   canvasContext.fill();
+//   ctx.beginPath();
+//   ctx.arc(110, 65, 5, 0, 2 * Math.PI);
+//   ctx.stroke();
+//   ctx.fillStyle = 'white';
+//   ctx.fill();
+//   ctx.beginPath();
+//   ctx.arc(90, 65, 5, 0, 2 * Math.PI);
+//   ctx.stroke();
+//   ctx.fillStyle = 'white';
+//   ctx.fill();
+//   ctx.beginPath();
+//   ctx.arc(100, 75, 10, 0, 2 * Math.PI);
+//   ctx.stroke();
+//   ctx.fillStyle = 'black';
+//   ctx.fill();
 // }
