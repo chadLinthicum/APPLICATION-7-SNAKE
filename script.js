@@ -17,7 +17,7 @@ let snakeSpeed = 10000;
 let appleX = 21;
 let appleY = 1;
 const APPLE_WIDTH = 18;
-const APPLE_HEIGHT = 18;
+const APPLE_HEIGHT = 18;  
 
 window.onload = function () {
   canvas = document.getElementById('gameCanvas');
@@ -30,6 +30,11 @@ window.onload = function () {
     moveEverything();
   }, snakeSpeed/framesPerSecond);
 
+  canvas.addEventListener('keypress', handleKeyPress);
+}
+
+function handleKeyPress(e) {
+  console.log(event.keyCode);
 }
 
 function drawEverything () {
