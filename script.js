@@ -1,3 +1,5 @@
+//BRANCH: cl-snake-week2
+
 let canvas;
 let canvasContext;
 
