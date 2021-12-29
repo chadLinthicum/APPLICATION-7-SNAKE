@@ -1,9 +1,12 @@
+//canvas
 let canvas;
 let ctx;
 
+//game
 let playerScore = 0;
 let showingWinScreen = false;
 
+//snake
 let snakeX = 1;
 let snakeY = 1;
 let snakeWidth = 18;
@@ -11,6 +14,7 @@ let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let snakeSpeed = 10000;
 
+//apple
 let appleX = 21;
 let appleY = 1;
 const APPLE_WIDTH = 18;
@@ -27,11 +31,7 @@ window.onload = function () {
     moveEverything();
   }, snakeSpeed/framesPerSecond);
 
-  canvas.addEventListener('keypress', handleKeyPress);
-}
-
-function handleKeyPress(event) {
-  console.log(event.keyCode);
+  canvas.addEventListener('keydown', handleKeyPress);
 }
 
 function drawEverything () {
@@ -43,13 +43,10 @@ function drawEverything () {
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width,canvas.height);
 
-
-  // colorRect(0,0,canvas.width,canvas.height,'#9E9E9E'); 
-  colorRect(0,0,1,600,'black');
-  colorRect(0,0,600,1,'black');
-
   //grid
   grid();
+  colorRect(0,0,1,600,'black');
+  colorRect(0,0,600,1,'black');
 
   //snake
   colorRect(snakeX,snakeY,snakeWidth,snakeHeight,'#70FF59');
@@ -57,7 +54,7 @@ function drawEverything () {
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
 
-  // //fly -- issue with black circle around wings
+  //fly
   // colorCircle(30, 30, 5, 'black');
   // colorCircle(25, 25, 2, 'white');
   // colorCircle(35, 25, 2, 'white');
@@ -65,7 +62,7 @@ function drawEverything () {
 
 function moveEverything() {
 
-  snakeY += SNAKE_MOVEMENT;
+  // snakeY += SNAKE_MOVEMENT;
   // snakeSpeed -= 10000;
   
   // //left wall
@@ -103,6 +100,38 @@ function moveEverything() {
   // } 
 }
 
+function handleKeyPress(event) {
+  switch(event.keyCode) {
+    case 38:
+      up();
+      break;
+    case 40:
+      down();
+      break;
+    case 37:
+      left();
+      break;
+    case 39:
+      right();
+  }
+}
+
+function up() {
+  snakeY -= SNAKE_MOVEMENT;
+}
+
+function down() {
+  snakeY += SNAKE_MOVEMENT;
+}
+
+function right() {
+  snakeX += SNAKE_MOVEMENT;
+}
+
+function left() {
+  snakeX -= SNAKE_MOVEMENT;
+}
+
 function grid() {
   for (var i=20; i<=800; i += 20)
   {
@@ -131,20 +160,3 @@ function colorCircle(centerX, centerY, radius, drawColor) {
   ctx.fill();
 }
 
-// function drawFly () {
-//   ctx.beginPath();
-//   ctx.arc(110, 65, 5, 0, 2 * Math.PI);
-//   ctx.stroke();
-//   ctx.fillStyle = 'white';
-//   ctx.fill();
-//   ctx.beginPath();
-//   ctx.arc(90, 65, 5, 0, 2 * Math.PI);
-//   ctx.stroke();
-//   ctx.fillStyle = 'white';
-//   ctx.fill();
-//   ctx.beginPath();
-//   ctx.arc(100, 75, 10, 0, 2 * Math.PI);
-//   ctx.stroke();
-//   ctx.fillStyle = 'black';
-//   ctx.fill();
-// }
