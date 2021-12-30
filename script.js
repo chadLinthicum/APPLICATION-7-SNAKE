@@ -76,18 +76,22 @@ function moveEverything() {
   // //left wall
   if (snakeHeadX < 0) {
     alert("game over");
+    direction = '';
     snakeHeadY = 100;
     snakeHeadX = 100;
     } else if (snakeHeadX > 380) {
         alert("game over");
+        direction = '';
         snakeHeadY = 100;
         snakeHeadX = 100;
     } else if (snakeHeadY > 380) {
         alert("game over");
+        direction = '';
         snakeHeadY = 100;
         snakeHeadX = 100;
     } else if (snakeHeadY < 0) {
         alert("game over");
+        direction = '';
         snakeHeadY = 100;
         snakeHeadX = 100;
     } 
