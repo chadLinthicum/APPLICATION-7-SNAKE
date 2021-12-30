@@ -1,18 +1,23 @@
-//canvas
-let canvas;
-let ctx;
+canvas = document.getElementById('gameCanvas');
+ctx = canvas.getContext('2d');
+
+// set canvas to be a tab stop (necessary to get events)
+canvas.setAttribute('tabindex','0');
+
+// set focus to the canvas so keystrokes are immediately handled
+canvas.focus();
 
 //game
 let playerScore = 0;
 let showingWinScreen = false;
 
 //snake
-let snakeHeadX = 100;
+let snakeHeadX = 0;
 let snakeHeadY = 100;
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeSpeed = 5000;
+let snakeSpeed = 250;
 let direction = '';
 
 //apple
@@ -21,20 +26,25 @@ let appleY = 0;
 const APPLE_WIDTH = 18;
 const APPLE_HEIGHT = 18;  
 
+
+
+
+
 //on page load
 window.onload = function () {
-  canvas = document.getElementById('gameCanvas');
-  ctx = canvas.getContext('2d');
-
-  let framesPerSecond = 30;
+  
 
   setInterval(function() {
     drawEverything();
     moveEverything();
-  }, snakeSpeed/framesPerSecond);
+  }, snakeSpeed);
 
   canvas.addEventListener('keydown', handleKeyPress);
 }
+
+
+
+
 
 function drawEverything () {
   //game board
@@ -52,39 +62,27 @@ function drawEverything () {
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
-
-  
 }
 
+
+
+
+
+
 function moveEverything() {
-  //snake movement
-  if (direction === "") {
-    return;
-  } else if (direction === "up") {
-    up();
-  } else if (direction === "down") {
-    down();
-  } else if (direction === "left") {
-    left();
-  } else if (direction === "right") {
-    right();
-  } 
-
-
-
-  // snakeSpeed -= 10000;
+  snakeMovement ();
+  console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
   
   // //left wall
-  // if (ballX < 10) {
-  //   if(ballY > paddle1Y && ballY < paddle1Y+PADDLE_HEIGHT) {
-  //     ballSpeedX = -ballSpeedX;
-  //     let deltaY = ballY - (paddle1Y + PADDLE_HEIGHT/2);
-  //     ballSpeedY = deltaY * 0.35;
-  //   } else {
-  //       player2Score++; //must be before ball reset
-  //       ballReset();
-  //   }
-  // }
+  if (snakeHeadX < -20) {
+    alert("game over");
+    direction = '';
+    snakeHeadY = 100;
+    snakeHeadX = 100;
+    } else {
+        
+    }
+  }
 
   // //right wall
   // if (ballX > canvas.width - 10) { //additional -10 so ball does not go past edge
@@ -107,6 +105,20 @@ function moveEverything() {
   // if (ballY > canvas.height - 10) { 
   //   ballSpeedY = -ballSpeedY;
   // } 
+
+
+function snakeMovement () {
+  if (direction === "") {
+    return;
+  } else if (direction === "up") {
+    snakeHeadY += -SNAKE_MOVEMENT;
+  } else if (direction === "down") {
+    snakeHeadY += SNAKE_MOVEMENT;
+  } else if (direction === "left") {
+    snakeHeadX += -SNAKE_MOVEMENT;
+  } else if (direction === "right") {
+    snakeHeadX += SNAKE_MOVEMENT;
+  } 
 }
 
 function handleKeyPress(event) {
@@ -115,7 +127,6 @@ function handleKeyPress(event) {
       if (direction === "down" || direction === "up") {
         return;
       } else {
-          up();
           direction = "up";
       }
       break;
@@ -123,7 +134,6 @@ function handleKeyPress(event) {
       if (direction === "up" || direction === "down") {
         return;
       } else {
-          down();
           direction = "down";
       }
       break;
@@ -131,7 +141,6 @@ function handleKeyPress(event) {
       if (direction === "right" || direction === "left") {
         return;
       } else {
-          left();
           direction = "left";
       }
       break;
@@ -139,32 +148,10 @@ function handleKeyPress(event) {
       if (direction === "left" || direction === "right") {
         return;
       } else {
-          right();
           direction = "right";
       }
   }
 }
-
-
-function up() {
-  snakeHeadY += -SNAKE_MOVEMENT;
-}
-
-function down() {
-  snakeHeadY += SNAKE_MOVEMENT;
-}
-
-function left() {
-  snakeHeadX += -SNAKE_MOVEMENT;
-}
-
-function right() {
-  snakeHeadX += SNAKE_MOVEMENT;
-}
-
-// function left() {
-//   snakeHeadX -= SNAKE_MOVEMENT;
-// }
 
 function grid() {
   for (var i=19; i<=800; i += 20)
