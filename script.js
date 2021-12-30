@@ -7,16 +7,16 @@ let playerScore = 0;
 let showingWinScreen = false;
 
 //snake
-let snakeX = 1;
-let snakeY = 1;
+let snakeHeadX = 0;
+let snakeHeadY = 0;
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let snakeSpeed = 10000;
 
 //apple
-let appleX = 21;
-let appleY = 1;
+let appleX = 20;
+let appleY = 0;
 const APPLE_WIDTH = 18;
 const APPLE_HEIGHT = 18;  
 
@@ -39,17 +39,14 @@ function drawEverything () {
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
   gradient.addColorStop(0, "#934B22");
   gradient.addColorStop(1, "#562E17");
-
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width,canvas.height);
 
   //grid
   grid();
-  colorRect(0,0,1,600,'black');
-  colorRect(0,0,600,1,'black');
 
-  //snake
-  colorRect(snakeX,snakeY,snakeWidth,snakeHeight,'#70FF59');
+  //snake head
+  colorRect(snakeHeadX,snakeHeadY,snakeWidth,snakeHeight,'#70FF59');
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
@@ -62,7 +59,7 @@ function drawEverything () {
 
 function moveEverything() {
 
-  // snakeY += SNAKE_MOVEMENT;
+  snakeHeadX += SNAKE_MOVEMENT;
   // snakeSpeed -= 10000;
   
   // //left wall
@@ -117,23 +114,23 @@ function handleKeyPress(event) {
 }
 
 function up() {
-  snakeY -= SNAKE_MOVEMENT;
+  snakeHeadY -= SNAKE_MOVEMENT;
 }
 
 function down() {
-  snakeY += SNAKE_MOVEMENT;
+  snakeHeadY += SNAKE_MOVEMENT;
 }
 
 function right() {
-  snakeX += SNAKE_MOVEMENT;
+  snakeHeadX += SNAKE_MOVEMENT;
 }
 
 function left() {
-  snakeX -= SNAKE_MOVEMENT;
+  snakeHeadX -= SNAKE_MOVEMENT;
 }
 
 function grid() {
-  for (var i=20; i<=800; i += 20)
+  for (var i=19; i<=800; i += 20)
   {
     //vertical lines
     ctx.moveTo(i,0);
