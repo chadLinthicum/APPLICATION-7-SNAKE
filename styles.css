@@ -11,6 +11,8 @@ canvas {
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  /* outline: none !important;  */
+     /* will remove white active index line */
 }
 
 .cabinet {
@@ -45,6 +47,7 @@ canvas {
   border: 5px;
   border-style: solid;
   border-color: black;
+  border-radius: 5px;
 }
 
 .score {

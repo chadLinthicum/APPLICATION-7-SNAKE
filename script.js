@@ -17,7 +17,7 @@ let snakeHeadY = 100;
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeSpeed = 250;
+let snakeSpeed = 150;
 let direction = '';
 
 //apple
@@ -74,14 +74,23 @@ function moveEverything() {
   console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
   
   // //left wall
-  if (snakeHeadX < -20) {
+  if (snakeHeadX < 0) {
     alert("game over");
-    direction = '';
     snakeHeadY = 100;
     snakeHeadX = 100;
-    } else {
-        
-    }
+    } else if (snakeHeadX > 380) {
+        alert("game over");
+        snakeHeadY = 100;
+        snakeHeadX = 100;
+    } else if (snakeHeadY > 380) {
+        alert("game over");
+        snakeHeadY = 100;
+        snakeHeadX = 100;
+    } else if (snakeHeadY < 0) {
+        alert("game over");
+        snakeHeadY = 100;
+        snakeHeadX = 100;
+    } 
   }
 
   // //right wall
