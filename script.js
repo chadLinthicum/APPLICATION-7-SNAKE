@@ -7,12 +7,13 @@ let playerScore = 0;
 let showingWinScreen = false;
 
 //snake
-let snakeHeadX = 0;
-let snakeHeadY = 0;
+let snakeHeadX = 100;
+let snakeHeadY = 100;
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeSpeed = 10000;
+let snakeSpeed = 5000;
+let direction = '';
 
 //apple
 let appleX = 20;
@@ -20,6 +21,7 @@ let appleY = 0;
 const APPLE_WIDTH = 18;
 const APPLE_HEIGHT = 18;  
 
+//on page load
 window.onload = function () {
   canvas = document.getElementById('gameCanvas');
   ctx = canvas.getContext('2d');
@@ -51,15 +53,25 @@ function drawEverything () {
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
 
-  //fly
-  // colorCircle(30, 30, 5, 'black');
-  // colorCircle(25, 25, 2, 'white');
-  // colorCircle(35, 25, 2, 'white');
+  
 }
 
 function moveEverything() {
+  //snake movement
+  if (direction === "") {
+    return;
+  } else if (direction === "up") {
+    up();
+  } else if (direction === "down") {
+    down();
+  } else if (direction === "left") {
+    left();
+  } else if (direction === "right") {
+    right();
+  } 
 
-  snakeHeadX += SNAKE_MOVEMENT;
+
+
   // snakeSpeed -= 10000;
   
   // //left wall
@@ -100,34 +112,59 @@ function moveEverything() {
 function handleKeyPress(event) {
   switch(event.keyCode) {
     case 38:
-      up();
+      if (direction === "down" || direction === "up") {
+        return;
+      } else {
+          up();
+          direction = "up";
+      }
       break;
     case 40:
-      down();
+      if (direction === "up" || direction === "down") {
+        return;
+      } else {
+          down();
+          direction = "down";
+      }
       break;
     case 37:
-      left();
+      if (direction === "right" || direction === "left") {
+        return;
+      } else {
+          left();
+          direction = "left";
+      }
       break;
     case 39:
-      right();
+      if (direction === "left" || direction === "right") {
+        return;
+      } else {
+          right();
+          direction = "right";
+      }
   }
 }
 
+
 function up() {
-  snakeHeadY -= SNAKE_MOVEMENT;
+  snakeHeadY += -SNAKE_MOVEMENT;
 }
 
 function down() {
   snakeHeadY += SNAKE_MOVEMENT;
 }
 
+function left() {
+  snakeHeadX += -SNAKE_MOVEMENT;
+}
+
 function right() {
   snakeHeadX += SNAKE_MOVEMENT;
 }
 
-function left() {
-  snakeHeadX -= SNAKE_MOVEMENT;
-}
+// function left() {
+//   snakeHeadX -= SNAKE_MOVEMENT;
+// }
 
 function grid() {
   for (var i=19; i<=800; i += 20)
