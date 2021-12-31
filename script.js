@@ -57,8 +57,16 @@ function drawEverything () {
   //grid
   grid();
 
-  //snake head
+  //snake head  
   colorRect(snakeHeadX,snakeHeadY,snakeWidth,snakeHeight,'#70FF59');
+
+  //snake eyes
+  
+  if (direction === "up") {
+    colorRect(snakeHeadX+2,snakeHeadY,5,5,'black');
+    colorRect(snakeHeadX+11,snakeHeadY,5,5,'black');
+  }
+  
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
