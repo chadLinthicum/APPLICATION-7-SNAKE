@@ -1,9 +1,7 @@
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
-
-// set canvas to be a tab stop (necessary to get events)
+// set canvas to be a tab stop
 canvas.setAttribute('tabindex','0');
-
 // set focus to the canvas so keystrokes are immediately handled
 canvas.focus();
 
@@ -14,7 +12,6 @@ let showingWinScreen = false;
 let score = 0;
 scoreNumber = document.getElementById('scoreNumber');
 scoreNumber.textContent=(score);
-
 
 //snake
 let snakeHeadX = 100;
@@ -37,8 +34,7 @@ let flyY;
 const FLY_WIDTH = 18;
 const FLY_HEIGHT = 18;  
 let randomLoc = Math.floor(Math.random() * 19);
-let flySpeed = 750;
-
+let flySpeed = 1000;
 
 //fly coordinate generation
 const flyCoordinate = 20;
@@ -47,16 +43,6 @@ const specialRandom = (num = 1, limit = 380) => {
    const res = Math.round( random / num ) * num;
    return res;
 };
-
-function flySpawn() {
-  if (flyX == snakeHeadX || flyY == snakeHeadY) {
-  flyY = specialRandom(flyCoordinate);
-  flyX = specialRandom(flyCoordinate);
-  } else {
-    flyY = specialRandom(flyCoordinate);
-    flyX = specialRandom(flyCoordinate);
-  }
-}
 
 //fly coordinates
 function flyCoordinates() {
@@ -83,18 +69,30 @@ function flyCoordinates() {
     }
   }
 
+  function flySpawn() {
+    if (flyX == snakeHeadX || flyY == snakeHeadY) {
+    flyY = specialRandom(flyCoordinate);
+    flyX = specialRandom(flyCoordinate);
+    } else {
+      flyY = specialRandom(flyCoordinate);
+      flyX = specialRandom(flyCoordinate);
+    }
+  }
 
-//on page load
+
+
+
+  function flySpeedUpdate() {
+    setInterval(function() {
+      flyCoordinates();
+    }, flySpeed);
+    }
+
 window.onload = function () {
-  
      
   flySpawn();
 
-  setInterval(function() {
-    flyCoordinates();
-    console.log(flySpeed);
-  }, flySpeed);
-  
+  flySpeedUpdate();
 
   setInterval(function() {
     drawEverything();
@@ -103,6 +101,9 @@ window.onload = function () {
 
   canvas.addEventListener('keydown', handleKeyPress);
 }
+
+
+
 
 
 
@@ -150,10 +151,6 @@ function drawEverything () {
     flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
-    flySpeed = flySpeed - 1000;
-    console.log(flySpeed);
-    snakeSpeed = snakeSpeed - 200;
-    console.log(snakeSpeed);
   }
 }
 
@@ -163,37 +160,30 @@ function drawEverything () {
 
 
 function moveEverything() {
-    
-  flySpeed;
-
-
-    snakeMovement ();
-    // console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
-    
-    gameOver();
-    
-    function reset() {
-      alert("game over");
-      direction = '';
-      snakeHeadY = 100;
-      snakeHeadX = 100;
-      scoreNumber.textContent=(score = 0);
-    }
-    
-    function gameOver() {
-    if (snakeHeadX < 0) {
+  
+  snakeMovement ();
+  
+  gameOver();
+  
+  function reset() {
+    alert("game over");
+    direction = '';
+    snakeHeadY = 100;
+    snakeHeadX = 100;
+    scoreNumber.textContent=(score = 0);
+  }
+  
+  function gameOver() {
+  if (snakeHeadX < 0) {
+    reset();
+    } else if (snakeHeadX > 380) {
       reset();
-      } else if (snakeHeadX > 380) {
-        reset();
-      } else if (snakeHeadY > 380) {
-        reset();
-      } else if (snakeHeadY < 0) {
-        reset();
-      } 
-    }
-
-
-
+    } else if (snakeHeadY > 380) {
+      reset();
+    } else if (snakeHeadY < 0) {
+      reset();
+    } 
+  }
 }
 
 
