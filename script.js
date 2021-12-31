@@ -91,7 +91,7 @@ function drawEverything () {
     flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
-    snakeSpeed = snakeSpeed + -100;
+    snakeSpeed = snakeSpeed - 100;
     console.log(snakeSpeed);
   }
 }
