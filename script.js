@@ -11,8 +11,13 @@ canvas.focus();
 let playerScore = 0;
 let showingWinScreen = false;
 
+let score = 0;
+scoreNumber = document.getElementById('scoreNumber');
+scoreNumber.textContent=(score);
+
+
 //snake
-let snakeHeadX = 0;
+let snakeHeadX = 100;
 let snakeHeadY = 100;
 let snakeWidth = 18;
 let snakeHeight = 18;
@@ -27,11 +32,19 @@ let snakeEyeC = 11;
 let snakeEyeColor = 'black';
 
 //apple
-let appleX = 20;
-let appleY = 0;
+let appleX;
+let appleY;
 const APPLE_WIDTH = 18;
 const APPLE_HEIGHT = 18;  
+var randomLoc = Math.floor(Math.random() * 19);
 
+//apple coordinate generation
+const appleCoordinate = 20;
+const specialRandom = (num = 1, limit = 380) => {
+   const random = Math.random() * limit;
+   const res = Math.round( random / num ) * num;
+   return res;
+};
 
 
 
@@ -39,6 +52,8 @@ const APPLE_HEIGHT = 18;
 
 //on page load
 window.onload = function () {
+  appleX = specialRandom(appleCoordinate); 
+  appleY = specialRandom(appleCoordinate);
   
 
   setInterval(function() {
@@ -87,6 +102,15 @@ function drawEverything () {
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
+  
+
+  //get apple
+  if (snakeHeadX == appleX && snakeHeadY == appleY) {
+    appleX = specialRandom(appleCoordinate); 
+    appleY = specialRandom(appleCoordinate); 
+    score++;
+    scoreNumber.textContent=(score);
+  }
 }
 
 
@@ -95,32 +119,31 @@ function drawEverything () {
 
 
 function moveEverything() {
-  snakeMovement ();
-  console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
-  
-  // //left wall
-  if (snakeHeadX < 0) {
-    alert("game over");
-    direction = '';
-    snakeHeadY = 100;
-    snakeHeadX = 100;
-    } else if (snakeHeadX > 380) {
-        alert("game over");
-        direction = '';
-        snakeHeadY = 100;
-        snakeHeadX = 100;
-    } else if (snakeHeadY > 380) {
-        alert("game over");
-        direction = '';
-        snakeHeadY = 100;
-        snakeHeadX = 100;
-    } else if (snakeHeadY < 0) {
-        alert("game over");
-        direction = '';
-        snakeHeadY = 100;
-        snakeHeadX = 100;
-    } 
+    snakeMovement ();
+    // console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
+    
+    gameOver();
+    
+    function reset() {
+      alert("game over");
+      direction = '';
+      snakeHeadY = 100;
+      snakeHeadX = 100;
+      scoreNumber.textContent=(score = 0);
+    }
+    
+    function gameOver() {
+    if (snakeHeadX < 0) {
+      reset();
+      } else if (snakeHeadX > 380) {
+        reset();
+      } else if (snakeHeadY > 380) {
+        reset();
+      } else if (snakeHeadY < 0) {
+        reset();
+      } 
   }
+}
 
 
 
