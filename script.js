@@ -22,7 +22,7 @@ let snakeHeadY = 100;
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeSpeed = 150;
+let snakeSpeed = 200;
 let direction = '';
 let snakeSkinColor = "#FF69B4";
 let snakeEyeSize = 5;
@@ -31,29 +31,69 @@ let snakeEyeB = 11;
 let snakeEyeC = 11;
 let snakeEyeColor = 'black';
 
-//apple
-let appleX;
-let appleY;
-const APPLE_WIDTH = 18;
-const APPLE_HEIGHT = 18;  
-var randomLoc = Math.floor(Math.random() * 19);
+//fly
+let flyX;
+let flyY;
+const FLY_WIDTH = 18;
+const FLY_HEIGHT = 18;  
+let randomLoc = Math.floor(Math.random() * 19);
+let flySpeed = 750;
 
-//apple coordinate generation
-const appleCoordinate = 20;
+
+//fly coordinate generation
+const flyCoordinate = 20;
 const specialRandom = (num = 1, limit = 380) => {
    const random = Math.random() * limit;
    const res = Math.round( random / num ) * num;
    return res;
 };
 
+function flySpawn() {
+  if (flyX == snakeHeadX || flyY == snakeHeadY) {
+  flyY = specialRandom(flyCoordinate);
+  flyX = specialRandom(flyCoordinate);
+  } else {
+    flyY = specialRandom(flyCoordinate);
+    flyX = specialRandom(flyCoordinate);
+  }
+}
 
+//fly coordinates
+function flyCoordinates() {
+  var flyCoordinatesArray = ["up", "down", "left", "right"]
+    let flyCoordinates = flyCoordinatesArray[Math.floor(Math.random() * flyCoordinatesArray.length)];
+    if (flyCoordinates === "up") {
+      flyY = flyY - 20;
+    } else if (flyCoordinates === "down") {
+      flyY = flyY + 20;
+    } else if (flyCoordinates === "left") {
+      flyX = flyX - 20;
+    } else if (flyCoordinates === "right") {
+      flyX = flyX + 20;
+    }
 
+    if (flyY < 0) {
+      flyY = flyY + 20;
+    } else if (flyY > 380) {
+      flyY = flyY - 20;
+    } else if (flyX < 0) {
+      flyX = flyX + 20;
+    } else if (flyX > 380) {
+      flyX = flyX - 20;
+    }
+  }
 
 
 //on page load
 window.onload = function () {
-  appleX = specialRandom(appleCoordinate); 
-  appleY = specialRandom(appleCoordinate);
+  
+     
+  flySpawn();
+
+  setInterval(function() {
+    flyCoordinates();
+    console.log(flySpeed);
+  }, flySpeed);
   
 
   setInterval(function() {
@@ -67,8 +107,8 @@ window.onload = function () {
 
 
 
-
 function drawEverything () {
+
   //game board
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
   gradient.addColorStop(0, "#934B22");
@@ -100,16 +140,20 @@ function drawEverything () {
     colorRect(snakeHeadX + snakeEyeC,snakeHeadY + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   }
   
-  //apple
-  colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
+  //fly
+  colorRect(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#FF6259');
   
-
-  //get apple
-  if (snakeHeadX == appleX && snakeHeadY == appleY) {
-    appleX = specialRandom(appleCoordinate); 
-    appleY = specialRandom(appleCoordinate); 
+  
+  //eat fly
+  if (snakeHeadX == flyX && snakeHeadY == flyY) {
+    flyX = specialRandom(flyCoordinate); 
+    flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
+    flySpeed = flySpeed - 1000;
+    console.log(flySpeed);
+    snakeSpeed = snakeSpeed - 200;
+    console.log(snakeSpeed);
   }
 }
 
@@ -119,6 +163,10 @@ function drawEverything () {
 
 
 function moveEverything() {
+    
+  flySpeed;
+
+
     snakeMovement ();
     // console.log("X = " + snakeHeadX + " Y = " + snakeHeadY);
     
@@ -142,7 +190,10 @@ function moveEverything() {
       } else if (snakeHeadY < 0) {
         reset();
       } 
-  }
+    }
+
+
+
 }
 
 
