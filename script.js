@@ -19,12 +19,19 @@ let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let snakeSpeed = 150;
 let direction = '';
+let snakeSkinColor = "#FF69B4";
+let snakeEyeSize = 5;
+let snakeEyeA = 2;
+let snakeEyeB = 11; 
+let snakeEyeC = 11;
+let snakeEyeColor = 'black';
 
 //apple
 let appleX = 20;
 let appleY = 0;
 const APPLE_WIDTH = 18;
 const APPLE_HEIGHT = 18;  
+
 
 
 
@@ -58,15 +65,25 @@ function drawEverything () {
   grid();
 
   //snake head  
-  colorRect(snakeHeadX,snakeHeadY,snakeWidth,snakeHeight,'#70FF59');
+  colorRect(snakeHeadX,snakeHeadY,snakeWidth,snakeHeight, snakeSkinColor);
 
   //snake eyes
-  
   if (direction === "up") {
-    colorRect(snakeHeadX+2,snakeHeadY,5,5,'black');
-    colorRect(snakeHeadX+11,snakeHeadY,5,5,'black');
+    colorRect(snakeHeadX + snakeEyeA,snakeHeadY + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snakeHeadX + snakeEyeB,snakeHeadY + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (direction === "down") {
+    colorRect(snakeHeadX+snakeEyeA,snakeHeadY+snakeEyeC,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snakeHeadX + snakeEyeB,snakeHeadY+snakeEyeC,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (direction === "left") {
+    colorRect(snakeHeadX + snakeEyeA,snakeHeadY + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snakeHeadX + snakeEyeA,snakeHeadY + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (direction === "right") {
+    colorRect(snakeHeadX + snakeEyeC,snakeHeadY + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snakeHeadX + snakeEyeC,snakeHeadY + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else {
+    colorRect(snakeHeadX + snakeEyeC,snakeHeadY + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snakeHeadX + snakeEyeC,snakeHeadY + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   }
-  
   
   //apple
   colorRect(appleX,appleY,APPLE_WIDTH,APPLE_HEIGHT,'#FF6259');
@@ -105,27 +122,8 @@ function moveEverything() {
     } 
   }
 
-  // //right wall
-  // if (ballX > canvas.width - 10) { //additional -10 so ball does not go past edge
-  //   if(ballY > paddle2Y && ballY < paddle2Y+PADDLE_HEIGHT) {
-  //     ballSpeedX = -ballSpeedX;
-  //     let deltaY = ballY - (paddle2Y + PADDLE_HEIGHT/2);
-  //     ballSpeedY = deltaY * 0.35;
-  //   } else {
-  //       player1Score++; //must be before ball reset
-  //       ballReset();
-  //   }
-  // }
 
-  // //top wall
-  // if (ballY < 10) {
-  //   ballSpeedY = -ballSpeedY;
-  // }
 
-  // //bottom wall
-  // if (ballY > canvas.height - 10) { 
-  //   ballSpeedY = -ballSpeedY;
-  // } 
 
 
 function snakeMovement () {
@@ -141,6 +139,11 @@ function snakeMovement () {
     snakeHeadX += SNAKE_MOVEMENT;
   } 
 }
+
+
+
+
+
 
 function handleKeyPress(event) {
   switch(event.keyCode) {
@@ -174,6 +177,12 @@ function handleKeyPress(event) {
   }
 }
 
+
+
+
+
+
+
 function grid() {
   for (var i=19; i<=800; i += 20)
   {
@@ -190,10 +199,21 @@ function grid() {
   }
 }
 
+
+
+
+
+
+
 function colorRect(leftX, topY, width, height, drawColor) {
   ctx.fillStyle = drawColor;
   ctx.fillRect(leftX, topY, width, height); 
 }
+
+
+
+
+
 
 function colorCircle(centerX, centerY, radius, drawColor) {
   ctx.fillStyle = drawColor;
