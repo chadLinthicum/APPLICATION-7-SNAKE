@@ -28,7 +28,7 @@ let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let snakeSpeed = 100;
-let direction = ''; //set to '' to have snake idle at start of game
+let snakeDirection = ''; //set to '' to have snake idle at start of game
 let snakeSkinColor = '#FF69B4';
 let snakeEyeSize = 5;
 let snakeEyeA = 2;
@@ -53,24 +53,16 @@ window.onload = function (event) {
   }, snakeSpeed);
 
   if (DEBUG) {
+    snakeDirection = 'right'
     flyX = 220;
     flyY = 100;
   } else {
     flySpawn();
-  }
-
-  if (DEBUG) {
-    direction = 'right'
-  } else {
-  }
-
-  if (DEBUG) {
-    return;
-  } else {
     setInterval(function() {
       flyMovement();
     }, flySpeed);
   }
+
 }
 
 function drawEverything () {
@@ -91,16 +83,16 @@ function drawEverything () {
   colorRect(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
 
   // snake eyes
-  if (direction === 'up') {
+  if (snakeDirection === 'up') {
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (direction === 'down') {
+  } else if (snakeDirection === 'down') {
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (direction === 'left') {
+  } else if (snakeDirection === 'left') {
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (direction === 'right') {
+  } else if (snakeDirection === 'right') {
     colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   } else {
@@ -124,7 +116,7 @@ function drawEverything () {
 
 function reset() {
   alert('game over');
-  direction = '';
+  snakeDirection = '';
   snake[0].y = 100;
   snake[0].x = 100;
   scoreNumber.textContent=(score = 0);
@@ -186,50 +178,50 @@ function flySpawn() {
   }
 }
 
-// set direction variable
+// set snakeDirection variable
 function handleKeyPress(event) {
   switch(event.keyCode) {
     case 38:
-      if (direction === 'down' || direction === 'up') {
+      if (snakeDirection === 'down' || snakeDirection === 'up') {
         return;
       } else {
-          direction = 'up';
+          snakeDirection = 'up';
       }
       break;
     case 40:
-      if (direction === 'up' || direction === 'down') {
+      if (snakeDirection === 'up' || snakeDirection === 'down') {
         return;
       } else {
-          direction = 'down';
+          snakeDirection = 'down';
       }
       break;
     case 37:
-      if (direction === 'right' || direction === 'left') {
+      if (snakeDirection === 'right' || snakeDirection === 'left') {
         return;
       } else {
-          direction = 'left';
+          snakeDirection = 'left';
       }
       break;
     case 39:
-      if (direction === 'left' || direction === 'right') {
+      if (snakeDirection === 'left' || snakeDirection === 'right') {
         return;
       } else {
-          direction = 'right';
+          snakeDirection = 'right';
       }
   }
 }
 
-// use direction variable to move snake
+// use snakeDirection variable to move snake
 function snakeMovement () {
-  if (direction === '') {
+  if (snakeDirection === '') {
     return;
-  } else if (direction === 'up') {
+  } else if (snakeDirection === 'up') {
     snake[0].y += -SNAKE_MOVEMENT;
-  } else if (direction === 'down') {
+  } else if (snakeDirection === 'down') {
     snake[0].y += SNAKE_MOVEMENT;
-  } else if (direction === 'left') {
+  } else if (snakeDirection === 'left') {
     snake[0].x += -SNAKE_MOVEMENT;
-  } else if (direction === 'right') {
+  } else if (snakeDirection === 'right') {
     snake[0].x += SNAKE_MOVEMENT;
   } 
 }
