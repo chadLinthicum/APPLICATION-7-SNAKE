@@ -16,8 +16,8 @@ scoreNumber.textContent=(score);
 //snake
 let snake = [
   {
-    x : 20,
-    y : 20, 
+    x : 100,
+    y : 100, 
   },
 ]
 
@@ -48,7 +48,6 @@ window.onload = function () {
 
   setInterval(function() {
     drawEverything();
-    moveEverything();
   }, snakeSpeed);
 
   canvas.addEventListener('keydown', handleKeyPress);
@@ -70,6 +69,8 @@ function drawEverything () {
 
   //grid
   grid();
+
+  snakeMovement ();
 
   // snake head  
   colorRect(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
@@ -101,49 +102,37 @@ function drawEverything () {
     flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
+    snakeSpeed -= 1000;
+    console.log(snakeSpeed)
   }
-}
-
-function moveEverything() {
-  
-  snakeMovement ();
 
   gameOver();
-  
-  function reset() {
-    alert('game over');
-    direction = '';
-    snake[0].y = 100;
-    snake[0].x = 100;
-    scoreNumber.textContent=(score = 0);
-  }
-  
-  function gameOver() {
+}
+
+function reset() {
+  alert('game over');
+  direction = '';
+  snake[0].y = 100;
+  snake[0].x = 100;
+  scoreNumber.textContent=(score = 0);
+}
+
+function gameOver() {
   if (snake[0].x < 0) {
+    console.log(snake[0].x)
     reset();
     } else if (snake[0].x > 380) {
+      console.log(snake[0].x)
       reset();
     } else if (snake[0].y > 380) {
+      console.log(snake[0].y)
       reset();
-    } else if (snake[0].y < -0) {
+    } else if (snake[0].y < 0) {
+      console.log(snake[0].y)
       reset();
     } 
   }
-}
 
-function snakeMovement () {
-  if (direction === '') {
-    return;
-  } else if (direction === 'up') {
-    snake[0].y += -SNAKE_MOVEMENT;
-  } else if (direction === 'down') {
-    snake[0].y += SNAKE_MOVEMENT;
-  } else if (direction === 'left') {
-    snake[0].x += -SNAKE_MOVEMENT;
-  } else if (direction === 'right') {
-    snake[0].x += SNAKE_MOVEMENT;
-  } 
-}
 
 //fly coordinate generation
 const flyCoordinate = 20;
@@ -195,6 +184,7 @@ function flySpeedUpdate() {
   }, flySpeed);
 }
 
+// set direction variable
 function handleKeyPress(event) {
   switch(event.keyCode) {
     case 38:
@@ -225,6 +215,21 @@ function handleKeyPress(event) {
           direction = 'right';
       }
   }
+}
+
+// use direction variable to move snake
+function snakeMovement () {
+  if (direction === '') {
+    return;
+  } else if (direction === 'up') {
+    snake[0].y += -SNAKE_MOVEMENT;
+  } else if (direction === 'down') {
+    snake[0].y += SNAKE_MOVEMENT;
+  } else if (direction === 'left') {
+    snake[0].x += -SNAKE_MOVEMENT;
+  } else if (direction === 'right') {
+    snake[0].x += SNAKE_MOVEMENT;
+  } 
 }
 
 function grid() {
