@@ -41,19 +41,20 @@ const FLY_HEIGHT = 18;
 let randomLoc = Math.floor(Math.random() * 19);
 let flySpeed = 1000;
 
-window.onload = function () {
-     
+window.onload = function (event) {
+  event.preventDefault(); //not sure if this works but page was refreshing unexpectedly so I added this
+  
+  canvas.addEventListener('keydown', handleKeyPress);
+  
+  setInterval(function() {
+    drawEverything();
+  }, snakeSpeed);
+
   flySpawn();
 
   // setInterval(function() {
   //   flyMovement();
   // }, flySpeed);
-
-  setInterval(function() {
-    drawEverything();
-  }, snakeSpeed);
-
-  canvas.addEventListener('keydown', handleKeyPress);
 }
 
 function drawEverything () {
@@ -100,8 +101,6 @@ function drawEverything () {
     flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
-    snakeSpeed -= 1000;
-    console.log(snakeSpeed)
   }
 
   gameOver();
@@ -117,27 +116,22 @@ function reset() {
 
 function gameOver() {
   if (snake[0].x < 0) {
-    console.log(snake[0].x)
     reset();
     } else if (snake[0].x > 380) {
-      console.log(snake[0].x)
       reset();
     } else if (snake[0].y > 380) {
-      console.log(snake[0].y)
       reset();
     } else if (snake[0].y < 0) {
-      console.log(snake[0].y)
       reset();
     } 
   }
 
-
 //fly coordinate generation
 const flyCoordinate = 20;
 const specialRandom = (num = 1, limit = 380) => {
-   const random = Math.random() * limit;
-   const res = Math.round( random / num ) * num;
-   return res;
+    const random = Math.random() * limit;
+    const res = Math.round( random / num ) * num;
+    return res;
 };
 
 //handle fly movement
