@@ -1,3 +1,5 @@
+const DEBUG = true; 
+
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
 // set canvas to be a tab stop
@@ -26,7 +28,7 @@ let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let snakeSpeed = 100;
-let direction = '';
+let direction = ''; //set to '' to have snake idle at start of game
 let snakeSkinColor = '#FF69B4';
 let snakeEyeSize = 5;
 let snakeEyeA = 2;
@@ -50,11 +52,25 @@ window.onload = function (event) {
     drawEverything();
   }, snakeSpeed);
 
-  flySpawn();
+  if (DEBUG) {
+    flyX = 220;
+    flyY = 100;
+  } else {
+    flySpawn();
+  }
 
-  // setInterval(function() {
-  //   flyMovement();
-  // }, flySpeed);
+  if (DEBUG) {
+    direction = 'right'
+  } else {
+  }
+
+  if (DEBUG) {
+    return;
+  } else {
+    setInterval(function() {
+      flyMovement();
+    }, flySpeed);
+  }
 }
 
 function drawEverything () {
@@ -69,7 +85,7 @@ function drawEverything () {
   //grid
   grid();
 
-  snakeMovement ();
+  snakeMovement();
 
   // snake head  
   colorRect(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
@@ -79,8 +95,8 @@ function drawEverything () {
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   } else if (direction === 'down') {
-    colorRect(snake[0].x+snakeEyeA,snake[0].y+snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeB,snake[0].y+snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   } else if (direction === 'left') {
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
     colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
@@ -229,7 +245,7 @@ function grid() {
     ctx.moveTo(0,i);
     ctx.lineTo(805,i);
 
-    ctx.strokeStyle='#000000';
+    ctx.strokeStyle='#000000'; //other color of choice = #5A2E11
     ctx.stroke();
   }
 }
