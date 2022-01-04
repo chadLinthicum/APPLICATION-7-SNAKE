@@ -13,7 +13,7 @@ let score = 0;
 scoreNumber = document.getElementById('scoreNumber');
 scoreNumber.textContent=(score);
 
-//snake
+//snake head and body coordinates
 let snake = [
   {
     x : 100,
@@ -21,6 +21,7 @@ let snake = [
   },
 ]
 
+//snake attributes
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
@@ -32,7 +33,7 @@ let snakeEyeA = 2;
 let snakeEyeB = 11; 
 let snakeEyeColor = '#000000';
 
-//fly
+//fly attributes
 let flyX;
 let flyY;
 const FLY_WIDTH = 18;
@@ -44,7 +45,9 @@ window.onload = function () {
      
   flySpawn();
 
-  flySpeedUpdate();
+  // setInterval(function() {
+  //   flyMovement();
+  // }, flySpeed);
 
   setInterval(function() {
     drawEverything();
@@ -54,11 +57,6 @@ window.onload = function () {
 }
 
 function drawEverything () {
-
-  if (snake[0].x === 0 && snake[0].y === 0) {
-    console.log('Test');
-    colorRect(20,20,snakeWidth,snakeHeight, snakeSkinColor);
-  }
 
   //game board
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
@@ -176,12 +174,6 @@ function flySpawn() {
     flyY = specialRandom(flyCoordinate);
     flyX = specialRandom(flyCoordinate);
   }
-}
-
-function flySpeedUpdate() {
-  setInterval(function() {
-    flyMovement();
-  }, flySpeed);
 }
 
 // set direction variable
