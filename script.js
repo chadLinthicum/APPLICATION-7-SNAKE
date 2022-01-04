@@ -153,8 +153,8 @@ const specialRandom = (num = 1, limit = 380) => {
    return res;
 };
 
-//fly coordinate assignment
-function flyCoordinates() {
+//handle fly movement
+function flyMovement() {
   var flyCoordinatesArray = ['up', 'down', 'left', 'right']
     let flyCoordinates = flyCoordinatesArray[Math.floor(Math.random() * flyCoordinatesArray.length)];
     if (flyCoordinates === 'up') {
@@ -179,7 +179,6 @@ function flyCoordinates() {
     }
 }
 
-
 function flySpawn() {
   if (flyX == snake[0].x || flyY == snake[0].y) {
   flyY = specialRandom(flyCoordinate);
@@ -192,7 +191,7 @@ function flySpawn() {
 
 function flySpeedUpdate() {
   setInterval(function() {
-    flyCoordinates();
+    flyMovement();
   }, flySpeed);
 }
 
