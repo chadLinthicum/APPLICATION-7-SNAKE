@@ -1,4 +1,7 @@
+// import { drawGrid } from "./drawBoard";
+
 const DEBUG = false; 
+
 
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
@@ -8,9 +11,6 @@ canvas.setAttribute('tabindex','0');
 canvas.focus();
 
 //game
-let playerScore = 0;
-let showingWinScreen = false;
-
 let score = 0;
 scoreNumber = document.getElementById('scoreNumber');
 scoreNumber.textContent=(score);
@@ -48,7 +48,7 @@ let flyPIX = document.getElementById('flyPIX');
 window.onload = function (event) {
   event.preventDefault(); //not sure if this works but page was refreshing unexpectedly so I added this
   
-  canvas.addEventListener('keydown', handleKeyPress);
+  canvas.addEventListener('keydown', setSnakeDirectionVariable);
   
   setInterval(function() {
     drawEverything();
@@ -66,22 +66,40 @@ window.onload = function (event) {
   }
 }
 
-
-
-
-function drawEverything () {
-
-  //game board
+function drawGame() {
+  drawBackground();
+  drawGrid(); 
+}
+function drawBackground() {
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
   gradient.addColorStop(0, '#934B22');
   gradient.addColorStop(1, '#562E17');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width,canvas.height);
+}
 
-  //grid
-  grid();
+function drawGrid() {
+  for (var i=19; i<=800; i += 20)
+  {
+    //vertical lines
+    ctx.moveTo(i,0);
+    ctx.lineTo(i,805);
 
-  snakeMovement();
+    //horizontal lines
+    ctx.moveTo(0,i);
+    ctx.lineTo(805,i);
+
+    ctx.strokeStyle='#000000'; //other color of choice = #5A2E11
+    ctx.stroke();
+  }
+}
+
+
+function drawEverything () {
+  drawGame();
+  
+
+  useSnakeDirectionVariableToMoveSnake();
 
   // snake head  
   colorRect(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
@@ -198,69 +216,58 @@ function flySpawn() {
   }
 }
 
-// set snakeDirection variable
-function handleKeyPress(event) {
+function isDirection(x, y) {
+  if (snakeDirection === x || snakeDirection === y) {
+    return true; 
+  } 
+  return false; 
+}
+
+function setSnakeDirectionVariable(event) {
   switch(event.keyCode) {
     case 38:
-      if (snakeDirection === 'down' || snakeDirection === 'up') {
-        return;
-      } else {
-          snakeDirection = 'up';
-      }
+      if (!isDirection('down', 'up')) { //snakeDirection === 'down' || snakeDirection === 'up'
+        snakeDirection = 'up';
+      } 
       break;
     case 40:
-      if (snakeDirection === 'up' || snakeDirection === 'down') {
-        return;
-      } else {
-          snakeDirection = 'down';
+      if (!isDirection('down', 'up')) {
+        snakeDirection = 'down';
       }
       break;
     case 37:
-      if (snakeDirection === 'right' || snakeDirection === 'left') {
-        return;
-      } else {
-          snakeDirection = 'left';
+      if (!isDirection('right', 'left')) {
+        snakeDirection = 'left';
       }
       break;
     case 39:
-      if (snakeDirection === 'left' || snakeDirection === 'right') {
-        return;
-      } else {
-          snakeDirection = 'right';
+      if (!isDirection('right', 'left')) {
+        snakeDirection = 'right';
       }
   }
 }
 
-// use snakeDirection variable to move snake
-function snakeMovement () {
+function useSnakeDirectionVariableToMoveSnake () {
   if (snakeDirection === '') {
     return;
-  } else if (snakeDirection === 'up') {
+  } 
+  if (snakeDirection === 'up') {
     snake[0].y += -SNAKE_MOVEMENT;
-  } else if (snakeDirection === 'down') {
+  }
+  if (snakeDirection === 'down') {
     snake[0].y += SNAKE_MOVEMENT;
-  } else if (snakeDirection === 'left') {
+  }
+  if (snakeDirection === 'left') {
     snake[0].x += -SNAKE_MOVEMENT;
-  } else if (snakeDirection === 'right') {
+  }
+  if (snakeDirection === 'right') {
     snake[0].x += SNAKE_MOVEMENT;
   } 
 }
 
-function grid() {
-  for (var i=19; i<=800; i += 20)
-  {
-    //vertical lines
-    ctx.moveTo(i,0);
-    ctx.lineTo(i,805);
 
-    //horizontal lines
-    ctx.moveTo(0,i);
-    ctx.lineTo(805,i);
 
-    ctx.strokeStyle='#000000'; //other color of choice = #5A2E11
-    ctx.stroke();
-  }
-}
+
 
 function colorRect(leftX, topY, width, height, drawColor) {
   ctx.fillStyle = drawColor;
