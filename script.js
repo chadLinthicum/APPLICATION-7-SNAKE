@@ -1,4 +1,4 @@
-const DEBUG = true; 
+const DEBUG = false; 
 
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
@@ -42,6 +42,8 @@ const FLY_WIDTH = 18;
 const FLY_HEIGHT = 18;  
 let randomLoc = Math.floor(Math.random() * 19);
 let flySpeed = 1000;
+let flyPIX = document.getElementById('flyPIX');
+
 
 window.onload = function (event) {
   event.preventDefault(); //not sure if this works but page was refreshing unexpectedly so I added this
@@ -62,8 +64,10 @@ window.onload = function (event) {
       flyMovement();
     }, flySpeed);
   }
-
 }
+
+
+
 
 function drawEverything () {
 
@@ -101,7 +105,7 @@ function drawEverything () {
   }
   
   //fly
-  colorRect(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
+  ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
 
   //eat fly
   if (snake[0].x == flyX && snake[0].y == flyY) {
@@ -109,13 +113,29 @@ function drawEverything () {
     flyY = specialRandom(flyCoordinate); 
     score++;
     scoreNumber.textContent=(score);
+    colorRect(100,100,100,100, snakeSkinColor);
+
+    snake[0].x = snake[0].x;
+    console.log(snake[0].x);
+    
+    snakeCopy = [...snake];
+    snakeCopy.push({x : snake[0].x, y : snake[0].y});
+    console.log(snake, snakeCopy);
   }
 
   gameOver();
 }
 
 function reset() {
-  alert('game over');
+  if (DEBUG) {
+    snakeDirection = 'right';
+    snake[0].y = 100;
+    snake[0].x = 100;
+    flyX = 220;
+    flyY = 100;
+  }
+  
+  alert ("game over");
   snakeDirection = '';
   snake[0].y = 100;
   snake[0].x = 100;
