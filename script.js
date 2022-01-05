@@ -23,6 +23,7 @@ let snake = [
   },
 ]
 
+
 //snake attributes
 let snakeWidth = 18;
 let snakeHeight = 18;
@@ -44,14 +45,16 @@ let randomLoc = Math.floor(Math.random() * 19);
 let flySpeed = 1000;
 let flyPIX = document.getElementById('flyPIX');
 
+initializeGame();
 
+function initializeGame() {
 window.onload = function (event) {
   event.preventDefault(); //not sure if this works but page was refreshing unexpectedly so I added this
   
   canvas.addEventListener('keydown', setSnakeDirectionVariable);
   
   setInterval(function() {
-    drawEverything();
+    updateCanvas();
   }, snakeSpeed);
 
   if (DEBUG) {
@@ -65,11 +68,13 @@ window.onload = function (event) {
     }, flySpeed);
   }
 }
+}
 
 function drawGame() {
   drawBackground();
   drawGrid(); 
 }
+
 function drawBackground() {
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
   gradient.addColorStop(0, '#934B22');
@@ -94,53 +99,13 @@ function drawGrid() {
   }
 }
 
-
-function drawEverything () {
+function updateCanvas () {
   drawGame();
-  
-
   useSnakeDirectionVariableToMoveSnake();
-
-  // snake head  
-  colorRect(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
-
-  // snake eyes
-  if (snakeDirection === 'up') {
-    colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'down') {
-    colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'left') {
-    colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'right') {
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else {
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    colorRect(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  }
-  
-  //fly
-  ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
-
-  //eat fly
-  if (snake[0].x == flyX && snake[0].y == flyY) {
-    flyX = specialRandom(flyCoordinate); 
-    flyY = specialRandom(flyCoordinate); 
-    score++;
-    scoreNumber.textContent=(score);
-    colorRect(100,100,100,100, snakeSkinColor);
-
-    snake[0].x = snake[0].x;
-    console.log(snake[0].x);
-    
-    snakeCopy = [...snake];
-    snakeCopy.push({x : snake[0].x, y : snake[0].y});
-    console.log(snake, snakeCopy);
-  }
-
+  drawSnakeHead();
+  drawSnakeEyes()
+  drawFly();
+  eatFly();
   gameOver();
 }
 
@@ -216,11 +181,19 @@ function flySpawn() {
   }
 }
 
+function drawFly() {
+  ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
+}
+
 function isDirection(x, y) {
   if (snakeDirection === x || snakeDirection === y) {
     return true; 
   } 
   return false; 
+}
+
+function drawSnakeHead() { 
+  drawSnakeRectangles(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
 }
 
 function setSnakeDirectionVariable(event) {
@@ -265,19 +238,44 @@ function useSnakeDirectionVariableToMoveSnake () {
   } 
 }
 
-
-
-
-
-function colorRect(leftX, topY, width, height, drawColor) {
+function drawSnakeRectangles(leftX, topY, width, height, drawColor) {
+  
   ctx.fillStyle = drawColor;
   ctx.fillRect(leftX, topY, width, height); 
 }
 
-function colorCircle(centerX, centerY, radius, drawColor) {
-  ctx.fillStyle = drawColor;
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, radius, 0, Math.PI*2, true);
-  ctx.fill();
+function drawSnakeEyes() {
+  if (snakeDirection === 'up') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'down') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'left') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'right') {
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else {
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  }
 }
 
+function eatFly() {
+  if (snake[0].x == flyX && snake[0].y == flyY) {
+    flyX = specialRandom(flyCoordinate); 
+    flyY = specialRandom(flyCoordinate); 
+    score++;
+    scoreNumber.textContent=(score);
+    drawSnakeRectangles(100,100,100,100, snakeSkinColor);
+
+    snake[0].x = snake[0].x;
+    console.log(snake[0].x);
+    
+    snakeCopy = [...snake];
+    snakeCopy.push({x : snake[0].x, y : snake[0].y});
+    console.log(snake, snakeCopy);
+  }
+}
