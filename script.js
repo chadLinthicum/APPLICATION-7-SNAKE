@@ -18,10 +18,6 @@ let worm = [
     x : 100,
     y : 100, 
   },
-  {
-    x : 80,
-    y : 100, 
-  },
 ];
 
 //worm attributes
@@ -286,6 +282,12 @@ function reset() {
   worm[0].y = 100;
   worm[0].x = 100;
   scoreNumber.textContent=(score = 0);
+  worm = [
+    {
+      x : 100,
+      y : 100, 
+    },
+  ];
 }
 
 function setWormDirectionVariable(event) {
