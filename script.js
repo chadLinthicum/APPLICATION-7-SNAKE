@@ -22,11 +22,7 @@ let worm = [
     x : 80,
     y : 100, 
   },
-  {
-    x : 60,
-    y : 100, 
-  },
-]
+];
 
 //worm attributes
 let wormWidth = 18;
@@ -76,10 +72,10 @@ window.onload = function() {
 function updateCanvas () {
   drawGame();
   drawFly();
-  drawWorm();
+  drawWormHeadAndBody();
   drawWormEyes();
   eatFly();
-  // gameOver();
+  gameOver();
   useWormDirectionVariableToMoveWorm();
 }
 
@@ -99,7 +95,7 @@ function drawFly() {
 
 function drawGame() {
   drawBackground();
-  drawGrid(); 
+  // drawGrid(); 
 }
 
 function drawGrid() {
@@ -118,32 +114,97 @@ function drawGrid() {
   }
 }
 
-function drawWorm() { 
-  drawWormRectangles(worm[0].x,worm[0].y,wormWidth,wormHeight, wormSkinColor);
-  drawWormRectangles(worm[1].x,worm[1].y,wormWidth,wormHeight, wormSkinColor);
-  drawWormRectangles(worm[2].x,worm[2].y,wormWidth,wormHeight, wormSkinColor);
+function drawWormHeadAndBody() { 
+  worm.forEach((segment) => {
+    drawRectangles(
+      segment.x,
+      segment.y,
+      wormWidth,
+      wormHeight,
+      wormSkinColor
+    );
+  });
 }
 
 function drawWormEyes() {
   if (wormDirection === 'up') {
-    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawRectangles(
+      worm[0].x + wormEyeA,
+      worm[0].y + wormEyeA,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeA,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
   } else if (wormDirection === 'down') {
-    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawRectangles(
+      worm[0].x + wormEyeA,
+      worm[0].y + wormEyeB,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeB,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
   } else if (wormDirection === 'left') {
-    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
-    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawRectangles(
+      worm[0].x + wormEyeA,
+      worm[0].y + wormEyeA,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
+    drawRectangles(
+      worm[0].x + wormEyeA,
+      worm[0].y + wormEyeB,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
   } else if (wormDirection === 'right') {
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeA,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeB,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor);
   } else {
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
-    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeA,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
+    drawRectangles(
+      worm[0].x + wormEyeB,
+      worm[0].y + wormEyeB,
+      wormEyeSize,
+      wormEyeSize,
+      wormEyeColor
+    );
   }
 }
 
-function drawWormRectangles(leftX, topY, width, height, drawColor) { 
+function drawRectangles(leftX, topY, width, height, drawColor) { 
   ctx.fillStyle = drawColor;
   ctx.fillRect(leftX, topY, width, height); 
 }
@@ -153,14 +214,8 @@ function eatFly() {
     flySpawn();
     score++;
     scoreNumber.textContent=(score);
-    // drawWormRectangles(100,100,100,100, wormSkinColor);
-  
-    // worm[0].x = worm[0].x;
-    // console.log(worm[0].x);
-    
-    // wormCopy = [...worm];
-    // wormCopy.push({x : worm[0].x, y : worm[0].y});
-    // console.log(worm, wormCopy);
+    worm.push({x : worm[0].x, y : worm[0].y});
+    console.log(worm,);
   }
 }
 
@@ -261,25 +316,22 @@ function useWormDirectionVariableToMoveWorm () {
   if (wormDirection === '') {
     return;
   } 
+
+  for (let i = worm.length - 1; i > 0; i--) {
+    worm[i] = Object.assign({}, worm[i - 1]);
+  }
+
   if (wormDirection === 'up') {
     worm[0].y += -SNAKE_MOVEMENT;
-   
   }
   if (wormDirection === 'down') {
     worm[0].y += SNAKE_MOVEMENT;
-    worm[1].y += SNAKE_MOVEMENT;
-    worm[2].y += SNAKE_MOVEMENT;
   }
   if (wormDirection === 'left') {
     worm[0].x += -SNAKE_MOVEMENT;
-    worm[1].x += -SNAKE_MOVEMENT;
-    for (i = 0; i < worm.length; i++)
-    console.log(i);
   }
   if (wormDirection === 'right') {
-    
-    
     worm[0].x += SNAKE_MOVEMENT;
-    worm[1].x += SNAKE_MOVEMENT;
   } 
 }
+
