@@ -49,7 +49,7 @@ window.onload = function() {
   
   setInterval(function() {
     updateCanvas();
-  }, 100);
+    }, 100);
 
   if (DEBUG) {
     snakeDirection = 'right'
@@ -60,9 +60,9 @@ window.onload = function() {
     console.log("set interval #2 is running");
     setInterval(function() {
       flyMovement();
-    }, 500);
+      }, 500);
+    }
   }
-}
 }
 
 function drawGame() {
