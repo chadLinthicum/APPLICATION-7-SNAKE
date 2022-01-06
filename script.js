@@ -1,7 +1,4 @@
-// import { drawGrid } from "./drawBoard";
-
 const DEBUG = false; 
-
 
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
@@ -23,12 +20,10 @@ let snake = [
   },
 ]
 
-
 //snake attributes
 let snakeWidth = 18;
 let snakeHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeSpeed = 100;
 let snakeDirection = ''; //set to '' to have snake idle at start of game
 let snakeSkinColor = '#FF69B4';
 let snakeEyeSize = 5;
@@ -42,20 +37,19 @@ let flyY;
 const FLY_WIDTH = 18;
 const FLY_HEIGHT = 18;  
 let randomLoc = Math.floor(Math.random() * 19);
-let flySpeed = 1000;
 let flyPIX = document.getElementById('flyPIX');
 
 initializeGame();
 
 function initializeGame() {
-window.onload = function (event) {
-  event.preventDefault(); //not sure if this works but page was refreshing unexpectedly so I added this
-  
-  canvas.addEventListener('keydown', setSnakeDirectionVariable);
+window.onload = function() {
+    canvas.addEventListener('keydown', setSnakeDirectionVariable);
+    
+    console.log("set interval #1 is running");
   
   setInterval(function() {
     updateCanvas();
-  }, snakeSpeed);
+  }, 100);
 
   if (DEBUG) {
     snakeDirection = 'right'
@@ -63,9 +57,10 @@ window.onload = function (event) {
     flyY = 100;
   } else {
     flySpawn();
+    console.log("set interval #2 is running");
     setInterval(function() {
       flyMovement();
-    }, flySpeed);
+    }, 500);
   }
 }
 }
@@ -103,10 +98,10 @@ function updateCanvas () {
   drawGame();
   useSnakeDirectionVariableToMoveSnake();
   drawSnakeHead();
-  drawSnakeEyes()
+  drawSnakeEyes();
   drawFly();
   eatFly();
-  gameOver();
+  // gameOver();
 }
 
 function reset() {
@@ -138,14 +133,8 @@ function gameOver() {
   }
 
 //fly coordinate generation
-const flyCoordinate = 20;
-const specialRandom = (num = 1, limit = 380) => {
-    const random = Math.random() * limit;
-    const res = Math.round( random / num ) * num;
-    return res;
-};
 
-//handle fly movement
+
 function flyMovement() {
   var flyCoordinatesArray = ['up', 'down', 'left', 'right']
     let flyCoordinates = flyCoordinatesArray[Math.floor(Math.random() * flyCoordinatesArray.length)];
@@ -172,6 +161,13 @@ function flyMovement() {
 }
 
 function flySpawn() {
+    const flyCoordinate = 20;
+    const specialRandom = (num = 1, limit = 380) => {
+    const random = Math.random() * limit;
+    const res = Math.round( random / num ) * num;
+    return res;
+    };
+
   if (flyX == snake[0].x || flyY == snake[0].y) {
   flyY = specialRandom(flyCoordinate);
   flyX = specialRandom(flyCoordinate);
@@ -182,6 +178,7 @@ function flySpawn() {
 }
 
 function drawFly() {
+  // drawSnakeRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
   ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
 }
 
@@ -265,8 +262,7 @@ function drawSnakeEyes() {
 
 function eatFly() {
   if (snake[0].x == flyX && snake[0].y == flyY) {
-    flyX = specialRandom(flyCoordinate); 
-    flyY = specialRandom(flyCoordinate); 
+    flySpawn();
     score++;
     scoreNumber.textContent=(score);
     drawSnakeRectangles(100,100,100,100, snakeSkinColor);
