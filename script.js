@@ -1,4 +1,4 @@
-const DEBUG = false; 
+const DEBUG = true; 
 
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
@@ -12,24 +12,32 @@ let score = 0;
 scoreNumber = document.getElementById('scoreNumber');
 scoreNumber.textContent=(score);
 
-//snake head and body coordinates
-let snake = [
+//worm head and body coordinates
+let worm = [
   {
     x : 100,
     y : 100, 
   },
+  {
+    x : 80,
+    y : 100, 
+  },
+  {
+    x : 60,
+    y : 100, 
+  },
 ]
 
-//snake attributes
-let snakeWidth = 18;
-let snakeHeight = 18;
+//worm attributes
+let wormWidth = 18;
+let wormHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let snakeDirection = ''; //set to '' to have snake idle at start of game
-let snakeSkinColor = '#FF69B4';
-let snakeEyeSize = 5;
-let snakeEyeA = 2;
-let snakeEyeB = 11; 
-let snakeEyeColor = '#000000';
+let wormDirection = ''; //set to '' to have worm idle at start of game
+let wormSkinColor = '#FF69B4';
+let wormEyeSize = 5;
+let wormEyeA = 2;
+let wormEyeB = 11; 
+let wormEyeColor = '#000000';
 
 //fly attributes
 let flyX;
@@ -41,16 +49,19 @@ let flyPIX = document.getElementById('flyPIX');
 
 initializeGame();
 
+
+
+
 function initializeGame() {
 window.onload = function() {
-    canvas.addEventListener('keydown', setSnakeDirectionVariable);
+  canvas.addEventListener('keydown', setWormDirectionVariable);
   
   setInterval(function() {
     updateCanvas();
-    }, 100);
+    }, 150);
 
   if (DEBUG) {
-    snakeDirection = 'right'
+    wormDirection = 'right'
     flyX = 220;
     flyY = 100;
   } else {
@@ -65,13 +76,12 @@ window.onload = function() {
 function updateCanvas () {
   drawGame();
   drawFly();
-  drawSnakeHead();
-  drawSnakeEyes();
+  drawWorm();
+  drawWormEyes();
   eatFly();
-  gameOver();
-  useSnakeDirectionVariableToMoveSnake();
+  // gameOver();
+  useWormDirectionVariableToMoveWorm();
 }
-
 
 
 function drawBackground() {
@@ -83,7 +93,7 @@ function drawBackground() {
 }
 
 function drawFly() {
-  // drawSnakeRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
+  // drawWormRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
   ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
 }
 
@@ -108,47 +118,49 @@ function drawGrid() {
   }
 }
 
-function drawSnakeHead() { 
-  drawSnakeRectangles(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
+function drawWorm() { 
+  drawWormRectangles(worm[0].x,worm[0].y,wormWidth,wormHeight, wormSkinColor);
+  drawWormRectangles(worm[1].x,worm[1].y,wormWidth,wormHeight, wormSkinColor);
+  drawWormRectangles(worm[2].x,worm[2].y,wormWidth,wormHeight, wormSkinColor);
 }
 
-function drawSnakeEyes() {
-  if (snakeDirection === 'up') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'down') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'left') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'right') {
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+function drawWormEyes() {
+  if (wormDirection === 'up') {
+    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+  } else if (wormDirection === 'down') {
+    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+  } else if (wormDirection === 'left') {
+    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeA,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
+  } else if (wormDirection === 'right') {
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
   } else {
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeA,wormEyeSize,wormEyeSize,wormEyeColor);
+    drawWormRectangles(worm[0].x + wormEyeB,worm[0].y + wormEyeB,wormEyeSize,wormEyeSize,wormEyeColor);
   }
 }
 
-function drawSnakeRectangles(leftX, topY, width, height, drawColor) { 
+function drawWormRectangles(leftX, topY, width, height, drawColor) { 
   ctx.fillStyle = drawColor;
   ctx.fillRect(leftX, topY, width, height); 
 }
 
 function eatFly() {
-  if (snake[0].x == flyX && snake[0].y == flyY) {
+  if (worm[0].x == flyX && worm[0].y == flyY) {
     flySpawn();
     score++;
     scoreNumber.textContent=(score);
-    drawSnakeRectangles(100,100,100,100, snakeSkinColor);
-
-    snake[0].x = snake[0].x;
-    console.log(snake[0].x);
+    // drawWormRectangles(100,100,100,100, wormSkinColor);
+  
+    // worm[0].x = worm[0].x;
+    // console.log(worm[0].x);
     
-    snakeCopy = [...snake];
-    snakeCopy.push({x : snake[0].x, y : snake[0].y});
-    console.log(snake, snakeCopy);
+    // wormCopy = [...worm];
+    // wormCopy.push({x : worm[0].x, y : worm[0].y});
+    // console.log(worm, wormCopy);
   }
 }
 
@@ -185,7 +197,7 @@ function flySpawn() {
   return res;
   };
 
-  if (flyX == snake[0].x || flyY == snake[0].y) {
+  if (flyX == worm[0].x || flyY == worm[0].y) {
     flyY = specialRandom(flyCoordinate);
     flyX = specialRandom(flyCoordinate);
   } else {
@@ -195,75 +207,79 @@ function flySpawn() {
 }
 
 function gameOver() {
-  if (snake[0].x < 0) {
+  if (worm[0].x < 0) {
     reset();
-    } else if (snake[0].x > 380) {
+    } else if (worm[0].x > 380) {
       reset();
-    } else if (snake[0].y > 380) {
+    } else if (worm[0].y > 380) {
       reset();
-    } else if (snake[0].y < 0) {
+    } else if (worm[0].y < 0) {
       reset();
     } 
   }
 
-function isDirection(x, y) {
-  if (snakeDirection === x || snakeDirection === y) {
-    return true; 
+function isDirection(i, j) {
+  if (wormDirection === i || wormDirection === j) {
+    return false; 
   } 
-  return false; 
+  return true; 
 }
 
 function reset() {
   alert ("game over");
-  snakeDirection = '';
-  snake[0].y = 100;
-  snake[0].x = 100;
+  wormDirection = '';
+  worm[0].y = 100;
+  worm[0].x = 100;
   scoreNumber.textContent=(score = 0);
 }
 
-function setSnakeDirectionVariable(event) {
-
-
-
-
-
+function setWormDirectionVariable(event) {
   switch(event.keyCode) {
     case 38:
-      if (!isDirection('down', 'up')) { //snakeDirection === 'down' || snakeDirection === 'up'
-        snakeDirection = 'up';
+      if (isDirection('down', 'up')) {
+        wormDirection = 'up';
       } 
       break;
     case 40:
-      if (!isDirection('down', 'up')) {
-        snakeDirection = 'down';
+      if (isDirection('down', 'up')) {
+        wormDirection = 'down';
       }
       break;
     case 37:
-      if (!isDirection('right', 'left')) {
-        snakeDirection = 'left';
+      if (isDirection('right', 'left')) {
+        wormDirection = 'left';
       }
       break;
     case 39:
-      if (!isDirection('right', 'left')) {
-        snakeDirection = 'right';
+      if (isDirection('right', 'left')) {
+        wormDirection = 'right';
       }
   }
 }
 
-function useSnakeDirectionVariableToMoveSnake () {
-  if (snakeDirection === '') {
+function useWormDirectionVariableToMoveWorm () {
+  if (wormDirection === '') {
     return;
   } 
-  if (snakeDirection === 'up') {
-    snake[0].y += -SNAKE_MOVEMENT;
+  if (wormDirection === 'up') {
+    worm[0].y += -SNAKE_MOVEMENT;
+   
   }
-  if (snakeDirection === 'down') {
-    snake[0].y += SNAKE_MOVEMENT;
+  if (wormDirection === 'down') {
+    worm[0].y += SNAKE_MOVEMENT;
+    worm[1].y += SNAKE_MOVEMENT;
+    worm[2].y += SNAKE_MOVEMENT;
   }
-  if (snakeDirection === 'left') {
-    snake[0].x += -SNAKE_MOVEMENT;
+  if (wormDirection === 'left') {
+    worm[0].x += -SNAKE_MOVEMENT;
+    worm[1].x += -SNAKE_MOVEMENT;
+    for (i = 0; i < worm.length; i++)
+    console.log(i);
   }
-  if (snakeDirection === 'right') {
-    snake[0].x += SNAKE_MOVEMENT;
+  if (wormDirection === 'right') {
+    
+    
+    worm[0].x += SNAKE_MOVEMENT;
+    worm[1].x += SNAKE_MOVEMENT;
   } 
 }
