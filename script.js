@@ -58,7 +58,7 @@ window.onload = function() {
   
   setInterval(function() {
     updateCanvas();
-    }, 150);
+    }, 100);
 
   if (DEBUG) {
     wormDirection = 'right'
