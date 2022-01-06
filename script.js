@@ -44,8 +44,6 @@ initializeGame();
 function initializeGame() {
 window.onload = function() {
     canvas.addEventListener('keydown', setSnakeDirectionVariable);
-    
-    console.log("set interval #1 is running");
   
   setInterval(function() {
     updateCanvas();
@@ -57,7 +55,6 @@ window.onload = function() {
     flyY = 100;
   } else {
     flySpawn();
-    console.log("set interval #2 is running");
     setInterval(function() {
       flyMovement();
       }, 500);
@@ -65,10 +62,17 @@ window.onload = function() {
   }
 }
 
-function drawGame() {
-  drawBackground();
-  drawGrid(); 
+function updateCanvas () {
+  drawGame();
+  drawFly();
+  drawSnakeHead();
+  drawSnakeEyes();
+  eatFly();
+  gameOver();
+  useSnakeDirectionVariableToMoveSnake();
 }
+
+
 
 function drawBackground() {
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
@@ -76,6 +80,16 @@ function drawBackground() {
   gradient.addColorStop(1, '#562E17');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width,canvas.height);
+}
+
+function drawFly() {
+  // drawSnakeRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
+  ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
+}
+
+function drawGame() {
+  drawBackground();
+  drawGrid(); 
 }
 
 function drawGrid() {
@@ -94,50 +108,53 @@ function drawGrid() {
   }
 }
 
-function updateCanvas () {
-  drawGame();
-  useSnakeDirectionVariableToMoveSnake();
-  drawSnakeHead();
-  drawSnakeEyes();
-  drawFly();
-  eatFly();
-  // gameOver();
+function drawSnakeHead() { 
+  drawSnakeRectangles(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
 }
 
-function reset() {
-  if (DEBUG) {
-    snakeDirection = 'right';
-    snake[0].y = 100;
-    snake[0].x = 100;
-    flyX = 220;
-    flyY = 100;
+function drawSnakeEyes() {
+  if (snakeDirection === 'up') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'down') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'left') {
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else if (snakeDirection === 'right') {
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+  } else {
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
+    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
   }
-  
-  alert ("game over");
-  snakeDirection = '';
-  snake[0].y = 100;
-  snake[0].x = 100;
-  scoreNumber.textContent=(score = 0);
 }
 
-function gameOver() {
-  if (snake[0].x < 0) {
-    reset();
-    } else if (snake[0].x > 380) {
-      reset();
-    } else if (snake[0].y > 380) {
-      reset();
-    } else if (snake[0].y < 0) {
-      reset();
-    } 
+function drawSnakeRectangles(leftX, topY, width, height, drawColor) { 
+  ctx.fillStyle = drawColor;
+  ctx.fillRect(leftX, topY, width, height); 
+}
+
+function eatFly() {
+  if (snake[0].x == flyX && snake[0].y == flyY) {
+    flySpawn();
+    score++;
+    scoreNumber.textContent=(score);
+    drawSnakeRectangles(100,100,100,100, snakeSkinColor);
+
+    snake[0].x = snake[0].x;
+    console.log(snake[0].x);
+    
+    snakeCopy = [...snake];
+    snakeCopy.push({x : snake[0].x, y : snake[0].y});
+    console.log(snake, snakeCopy);
   }
-
-//fly coordinate generation
-
+}
 
 function flyMovement() {
-  var flyCoordinatesArray = ['up', 'down', 'left', 'right']
-    let flyCoordinates = flyCoordinatesArray[Math.floor(Math.random() * flyCoordinatesArray.length)];
+  var flyDirection = ['up', 'down', 'left', 'right']
+    let flyCoordinates = flyDirection[Math.floor(Math.random() * flyDirection.length)];
     if (flyCoordinates === 'up') {
       flyY = flyY - 20;
     } else if (flyCoordinates === 'down') {
@@ -161,26 +178,33 @@ function flyMovement() {
 }
 
 function flySpawn() {
-    const flyCoordinate = 20;
-    const specialRandom = (num = 1, limit = 380) => {
-    const random = Math.random() * limit;
-    const res = Math.round( random / num ) * num;
-    return res;
-    };
+  const flyCoordinate = 20;
+  const specialRandom = (num = 1, limit = 380) => {
+  const random = Math.random() * limit;
+  const res = Math.round( random / num ) * num;
+  return res;
+  };
 
   if (flyX == snake[0].x || flyY == snake[0].y) {
-  flyY = specialRandom(flyCoordinate);
-  flyX = specialRandom(flyCoordinate);
+    flyY = specialRandom(flyCoordinate);
+    flyX = specialRandom(flyCoordinate);
   } else {
     flyY = specialRandom(flyCoordinate);
     flyX = specialRandom(flyCoordinate);
   }
 }
 
-function drawFly() {
-  // drawSnakeRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
-  ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
-}
+function gameOver() {
+  if (snake[0].x < 0) {
+    reset();
+    } else if (snake[0].x > 380) {
+      reset();
+    } else if (snake[0].y > 380) {
+      reset();
+    } else if (snake[0].y < 0) {
+      reset();
+    } 
+  }
 
 function isDirection(x, y) {
   if (snakeDirection === x || snakeDirection === y) {
@@ -189,11 +213,20 @@ function isDirection(x, y) {
   return false; 
 }
 
-function drawSnakeHead() { 
-  drawSnakeRectangles(snake[0].x,snake[0].y,snakeWidth,snakeHeight, snakeSkinColor);
+function reset() {
+  alert ("game over");
+  snakeDirection = '';
+  snake[0].y = 100;
+  snake[0].x = 100;
+  scoreNumber.textContent=(score = 0);
 }
 
 function setSnakeDirectionVariable(event) {
+
+
+
+
+
   switch(event.keyCode) {
     case 38:
       if (!isDirection('down', 'up')) { //snakeDirection === 'down' || snakeDirection === 'up'
@@ -233,45 +266,4 @@ function useSnakeDirectionVariableToMoveSnake () {
   if (snakeDirection === 'right') {
     snake[0].x += SNAKE_MOVEMENT;
   } 
-}
-
-function drawSnakeRectangles(leftX, topY, width, height, drawColor) {
-  
-  ctx.fillStyle = drawColor;
-  ctx.fillRect(leftX, topY, width, height); 
-}
-
-function drawSnakeEyes() {
-  if (snakeDirection === 'up') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'down') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'left') {
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeA,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else if (snakeDirection === 'right') {
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  } else {
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeA,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-    drawSnakeRectangles(snake[0].x + snakeEyeB,snake[0].y + snakeEyeB,snakeEyeSize,snakeEyeSize,snakeEyeColor);
-  }
-}
-
-function eatFly() {
-  if (snake[0].x == flyX && snake[0].y == flyY) {
-    flySpawn();
-    score++;
-    scoreNumber.textContent=(score);
-    drawSnakeRectangles(100,100,100,100, snakeSkinColor);
-
-    snake[0].x = snake[0].x;
-    console.log(snake[0].x);
-    
-    snakeCopy = [...snake];
-    snakeCopy.push({x : snake[0].x, y : snake[0].y});
-    console.log(snake, snakeCopy);
-  }
 }
