@@ -74,6 +74,10 @@ function updateCanvas () {
   gameOver();
   useWormDirectionVariableToMoveWorm();
   // headBump();
+  console.log(worm);
+  console.log(worm[0]);
+  console.log(worm[0].x + ", " + worm[0].y);
+  
 }
 
 function drawBackground() {
@@ -270,17 +274,17 @@ function gameOver() {
 
 // var i = 0;
 
-function headBump(){
-  if (worm[0] == worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
-    return;
-  }
+// function headBump(){
+//   if (worm[0] == worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
+//     return;
+//   }
   
   // for (i; i < worm.length; i++) {
   //   console.log("worm length is " + worm.length);
   //   console.log("i = " + i);
     
   // }
-}
+// }
 
 function isDirection(i, j) {
   if (wormDirection === i || wormDirection === j) {
