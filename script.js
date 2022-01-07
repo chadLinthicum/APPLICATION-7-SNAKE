@@ -50,7 +50,7 @@ window.onload = function() {
   
   setInterval(function() {
     updateCanvas();
-    }, 100);
+    }, 1000);
 
   if (DEBUG) {
     wormDirection = 'right'
@@ -73,8 +73,8 @@ function updateCanvas () {
   eatFly();
   gameOver();
   useWormDirectionVariableToMoveWorm();
+  // headBump();
 }
-
 
 function drawBackground() {
   var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
@@ -211,7 +211,6 @@ function eatFly() {
     score++;
     scoreNumber.textContent=(score);
     worm.push({x : worm[0].x, y : worm[0].y});
-    console.log(worm,);
   }
 }
 
@@ -268,6 +267,20 @@ function gameOver() {
       reset();
     } 
   }
+
+// var i = 0;
+
+function headBump(){
+  if (worm[0] == worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
+    return;
+  }
+  
+  // for (i; i < worm.length; i++) {
+  //   console.log("worm length is " + worm.length);
+  //   console.log("i = " + i);
+    
+  // }
+}
 
 function isDirection(i, j) {
   if (wormDirection === i || wormDirection === j) {
