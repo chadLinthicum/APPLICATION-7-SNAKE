@@ -19,6 +19,7 @@ let worm = [
     y : 100, 
   },
   
+  
 ];
 
 //worm attributes
@@ -51,7 +52,7 @@ window.onload = function() {
   
   setInterval(function() {
     updateCanvas();
-    }, 500);
+    }, 100);
 
   if (DEBUG) {
     wormDirection = 'right'
@@ -216,7 +217,6 @@ function eatFly() {
     score++;
     scoreNumber.textContent=(score);
     worm.push({x : worm[0].x, y : worm[0].y});
-    console.log(worm)
   }
 }
 
@@ -277,25 +277,27 @@ function gameOver() {
 var i = 1;
 
 function headBump(){
-  if (worm[0] === worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
-    console.log(worm[1])
-    console.log(worm[2])
-    console.log(worm[3])
-    console.log(worm[4])
-    console.log(worm[5])
-    console.log(worm[6])
-    console.log(worm[7])
-    console.log(worm[8])
-    reset();
-    
-  }
+  // if (worm[0] === worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
+  //   console.log(worm[1])
+  //   console.log(worm[2])
+  //   console.log(worm[3])
+  //   console.log(worm[4])
+  //   console.log(worm[5])
+  //   console.log(worm[6])
+  //   console.log(worm[7])
+  //   console.log(worm[8])
+  //   reset();
   
-  for (i=1; i < worm.length; i++) {
-    console.log("i = " + i);
-    console.log("worm length is " + worm.length);
-    
-    
+  for (i=1; i < worm.length; i++){
+    if (worm[0].x === worm[i].x && worm[0].y === worm[i].y) {
+      reset();
+    }
   }
+
+  // for (i=1; i < worm.length; i++) {
+  //   console.log("i = " + i);
+  //   console.log("worm length is " + worm.length);
+  // }
 }
 
 function isDirection(i, j) {
@@ -349,7 +351,12 @@ function useWormDirectionVariableToMoveWorm () {
   } 
 
   for (let i = worm.length - 1; i > 0; i--) {
-    worm[i] = Object.assign({}, worm[i - 1]);
+    // debugger;
+    const previousPartIndex = i - 1;
+    // console.log('previousPartIndex: ', previousPartIndex);
+    const previousPart = worm[previousPartIndex];
+    // console.log('previousPart: ', previousPart)
+    worm[i] = Object.assign({}, previousPart);
   }
 
   if (wormDirection === 'up') {
