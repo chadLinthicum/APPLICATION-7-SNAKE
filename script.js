@@ -9,7 +9,9 @@ canvas.focus();
 
 //game
 let score = 0;
+let topScore = 0;
 scoreNumber = document.getElementById('scoreNumber');
+topScoreNumber = document.getElementById('topScoreNumber');
 scoreNumber.textContent=(score);
 
 //worm head and body coordinates
@@ -295,7 +297,13 @@ function reset() {
   wormDirection = '';
   worm[0].y = 100;
   worm[0].x = 100;
+  
+  if (score > topScoreNumber.textContent){
+topScoreNumber.textContent = score;
+  }
+  
   scoreNumber.textContent=(score = 0);
+  
   worm = [
     {
       x : 100,
