@@ -10,9 +10,10 @@ canvas.focus();
 //game
 let score = 0;
 let topScore = 0;
-scoreNumber = document.getElementById('scoreNumber');
-topScoreNumber = document.getElementById('topScoreNumber');
-scoreNumber.textContent=(score);
+scoreNumber = document.getElementById('score');
+highScoreNumber = document.getElementById('highScore');
+boundaryX = 600;
+boundaryY = 600;
 
 //worm head and body coordinates
 let worm = [
@@ -80,8 +81,8 @@ function updateCanvas () {
 }
 
 function drawBackground() {
-  var gradient = ctx.createRadialGradient(200, 200, 100, 200, 200, 250);
-  gradient.addColorStop(0, '#934B22');
+  var gradient = ctx.createRadialGradient(300, 250, 100, 350, 200, 250);
+  gradient.addColorStop(0, '#2B3B0A');
   gradient.addColorStop(1, '#562E17');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, canvas.width,canvas.height);
@@ -254,7 +255,7 @@ function flySpawn() {
 
   // ensures fly does not spawn on top of worm head/body
   for (i = 0; i < worm.length; i++){
-    if (flyX == worm[i].x || flyY == worm[i].y) {
+    if (flyX == worm[i].x && flyY == worm[i].y) {
       flyY = specialRandom(flyCoordinate);
       flyX = specialRandom(flyCoordinate);
     } else {
@@ -267,9 +268,9 @@ function flySpawn() {
 function gameOver() {
   if (worm[0].x < 0) {
     reset();
-    } else if (worm[0].x > 380) {
+    } else if (worm[0].x > boundaryX) {
       reset();
-    } else if (worm[0].y > 380) {
+    } else if (worm[0].y > boundaryY) {
       reset();
     } else if (worm[0].y < 0) {
       reset();
@@ -298,8 +299,8 @@ function reset() {
   worm[0].y = 100;
   worm[0].x = 100;
   
-  if (score > topScoreNumber.textContent){
-topScoreNumber.textContent = score;
+  if (score > highScoreNumber.textContent){
+    highScoreNumber.textContent = score;
   }
   
   scoreNumber.textContent=(score = 0);

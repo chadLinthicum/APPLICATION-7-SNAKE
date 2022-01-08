@@ -1,6 +1,6 @@
 body {
   background-color: rgb(173, 173, 173);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:cursive
 }
 
 h1 {
@@ -15,6 +15,10 @@ canvas {
      /* will remove white active index line */
 }
 
+#logo {
+    text-align: center;
+}
+
 .cabinet {
   display: flex;
   align-items: stretch;
@@ -23,13 +27,13 @@ canvas {
 }
 
 .rules {
-  background-color: DodgerBlue;
+  background-color: rgb(0, 0, 0);
   color: white;
   /* width: 100px; */
   margin: 10px;
   text-align: center;
   line-height: 75px;
-  font-size: 30px;
+  font-size: 25px;
   flex: 1;
   /* align-self:center; */
   
@@ -42,7 +46,7 @@ canvas {
   margin: 10px;
   text-align: center;
   line-height: 500px;
-  font-size: 30px;
+  font-size: 25px;
   flex: 1;
   border: 5px;
   border-style: solid;
@@ -51,12 +55,12 @@ canvas {
 }
 
 .score {
-  background-color: DodgerBlue;
+  background-color: rgb(0, 0, 0);
   color: white;
   /* width: 100px; */
   margin: 10px;
   text-align: center;
   line-height: 75px;
-  font-size: 30px;
+  font-size: 25px;
   flex: 1;
 }

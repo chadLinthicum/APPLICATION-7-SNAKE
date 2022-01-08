@@ -7,38 +7,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
   <title>Worm VS Fly</title>
-  <h1>Worm VS Fly</h1>
+  <div id = "logo"><img src="assets\logo.png"></div>
 </head>
   
 <body>
   <div class="cabinet">
+    
     <div class="rules">
       <p> 
         Rules: <br>
         1: Use arrow keys to control the worm!<br>
-        2: Consume the fly to score and grow!<br>
+        2: Consume the fly to grow and score!<br>
         3: Do not run into yourself or the walls!<br>
+        NOTE: The fly is sneaky and can fly under you!<br>
+        <div id = "logo"><img src="assets\EJ3.png" height="150"></div>
       </p> 
     </div>
+    
     <div class="board">
-      <canvas id="gameCanvas" width="400" height="400" tabindex='1'></canvas>
+      <canvas id="gameCanvas" width="620" height="620" tabindex='1'></canvas>
     </div>
+
     <div class="score">
-      <div>Score:</div>
-      <div id="scoreNumber">0</div>
-      <div>Top Score:</div>
-      <div id="topScoreNumber">0</div>
+      <p>
+      High Score:
+      <div id="highScore">0</div>
+      Score:
+      <div id="score">0</div>
+      <br>
+      
+      <div id = "logo"><img src="assets\flyPIX_4.png" height="150"></div>
+      </p>
     </div>
 
     <div style="display:none;">
-      <img id="flyPIX"
-           src="assets\flyPIX_6.png"
-           width="20" height="20">
+      <img id="flyPIX" src="assets\flyPIX_6.png" width="20" height="20">
     </div>
 
-</div>
+  </div>
   <script type="text/javascript" src="script.js"></script> 
 </body>
-
-
 </html>
