@@ -18,6 +18,7 @@ let worm = [
     x : 100,
     y : 100, 
   },
+  
 ];
 
 //worm attributes
@@ -50,7 +51,7 @@ window.onload = function() {
   
   setInterval(function() {
     updateCanvas();
-    }, 1000);
+    }, 500);
 
   if (DEBUG) {
     wormDirection = 'right'
@@ -73,10 +74,10 @@ function updateCanvas () {
   eatFly();
   gameOver();
   useWormDirectionVariableToMoveWorm();
-  // headBump();
-  console.log(worm);
-  console.log(worm[0]);
-  console.log(worm[0].x + ", " + worm[0].y);
+  headBump();
+  // console.log(worm);
+  // console.log(worm[0]);
+  // console.log(worm[0].x + ", " + worm[0].y);
   
 }
 
@@ -215,6 +216,7 @@ function eatFly() {
     score++;
     scoreNumber.textContent=(score);
     worm.push({x : worm[0].x, y : worm[0].y});
+    console.log(worm)
   }
 }
 
@@ -272,19 +274,29 @@ function gameOver() {
     } 
   }
 
-// var i = 0;
+var i = 1;
 
-// function headBump(){
-//   if (worm[0] == worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
-//     return;
-//   }
-  
-  // for (i; i < worm.length; i++) {
-  //   console.log("worm length is " + worm.length);
-  //   console.log("i = " + i);
+function headBump(){
+  if (worm[0] === worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
+    console.log(worm[1])
+    console.log(worm[2])
+    console.log(worm[3])
+    console.log(worm[4])
+    console.log(worm[5])
+    console.log(worm[6])
+    console.log(worm[7])
+    console.log(worm[8])
+    reset();
     
-  // }
-// }
+  }
+  
+  for (i=1; i < worm.length; i++) {
+    console.log("i = " + i);
+    console.log("worm length is " + worm.length);
+    
+    
+  }
+}
 
 function isDirection(i, j) {
   if (wormDirection === i || wormDirection === j) {
