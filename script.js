@@ -1,4 +1,4 @@
-const DEBUG = true; 
+const DEBUG = false; 
 
 canvas = document.getElementById('gameCanvas');
 ctx = canvas.getContext('2d');
@@ -17,9 +17,7 @@ let worm = [
   {
     x : 100,
     y : 100, 
-  },
-  
-  
+  }
 ];
 
 //worm attributes
@@ -34,17 +32,14 @@ let wormEyeB = 11;
 let wormEyeColor = '#000000';
 
 //fly attributes
-let flyX;
-let flyY;
+let flyX = 200;
+let flyY = 200;
 const FLY_WIDTH = 18;
 const FLY_HEIGHT = 18;  
 let randomLoc = Math.floor(Math.random() * 19);
 let flyPIX = document.getElementById('flyPIX');
 
 initializeGame();
-
-
-
 
 function initializeGame() {
 window.onload = function() {
@@ -246,6 +241,8 @@ function flyMovement() {
 }
 
 function flySpawn() {
+  // debugger;
+  //algorithm that generates fly coordinates of 20 within range of 1-380
   const flyCoordinate = 20;
   const specialRandom = (num = 1, limit = 380) => {
   const random = Math.random() * limit;
@@ -253,12 +250,15 @@ function flySpawn() {
   return res;
   };
 
-  if (flyX == worm[0].x || flyY == worm[0].y) {
-    flyY = specialRandom(flyCoordinate);
-    flyX = specialRandom(flyCoordinate);
-  } else {
-    flyY = specialRandom(flyCoordinate);
-    flyX = specialRandom(flyCoordinate);
+  // ensures fly does not spawn on top of worm head/body
+  for (i = 0; i < worm.length; i++){
+    if (flyX == worm[i].x || flyY == worm[i].y) {
+      flyY = specialRandom(flyCoordinate);
+      flyX = specialRandom(flyCoordinate);
+    } else {
+      flyY = specialRandom(flyCoordinate);
+      flyX = specialRandom(flyCoordinate);
+    }
   }
 }
 
@@ -271,33 +271,16 @@ function gameOver() {
       reset();
     } else if (worm[0].y < 0) {
       reset();
-    } 
-  }
+  } 
+}
 
-var i = 1;
-
-function headBump(){
-  // if (worm[0] === worm[1] || worm[2] || worm[3] || worm[4] || worm[5] || worm[6] || worm[7] || worm[8]) {
-  //   console.log(worm[1])
-  //   console.log(worm[2])
-  //   console.log(worm[3])
-  //   console.log(worm[4])
-  //   console.log(worm[5])
-  //   console.log(worm[6])
-  //   console.log(worm[7])
-  //   console.log(worm[8])
-  //   reset();
-  
-  for (i=1; i < worm.length; i++){
+function headBump(){ 
+  for (i = 1; i < worm.length; i++){
     if (worm[0].x === worm[i].x && worm[0].y === worm[i].y) {
+      alert ("Doh! You can ran into yourself!");
       reset();
     }
   }
-
-  // for (i=1; i < worm.length; i++) {
-  //   console.log("i = " + i);
-  //   console.log("worm length is " + worm.length);
-  // }
 }
 
 function isDirection(i, j) {
@@ -308,7 +291,7 @@ function isDirection(i, j) {
 }
 
 function reset() {
-  alert ("game over");
+  alert ("GAME OVER");
   wormDirection = '';
   worm[0].y = 100;
   worm[0].x = 100;
