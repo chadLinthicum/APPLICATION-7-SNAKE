@@ -7,40 +7,33 @@ canvas.setAttribute('tabindex','0');
 // set focus to the canvas so keystrokes are immediately handled
 canvas.focus();
 
-//game
-let score = 0;
-let topScore = 0;
+//game attributes
+score = 0;
+topScore = 0;
 scoreNumber = document.getElementById('score');
 highScoreNumber = document.getElementById('highScore');
 boundaryX = 600;
-boundaryY = 5600;
-
-//worm head and body coordinates
-let worm = [
-  {
-    x : 100,
-    y : 100, 
-  }
-];
+boundaryY = 600;
 
 //worm attributes
-let wormWidth = 18;
-let wormHeight = 18;
+worm = [{ x : 100, y : 100, }];
+wormWidth = 18;
+wormHeight = 18;
 const SNAKE_MOVEMENT = 20;
-let wormDirection = ''; //set to '' to have worm idle at start of game
-let wormSkinColor = '#dd6287  ';
-let wormEyeSize = 5;
-let wormEyeA = 2;
-let wormEyeB = 11; 
-let wormEyeColor = '#000000';
+wormDirection = ''; //set to '' to have worm idle at start of game
+wormSkinColor = '#dd6287  ';
+wormEyeSize = 5;
+wormEyeA = 2;
+wormEyeB = 11; 
+wormEyeColor = '#000000';
 
 //fly attributes
-let flyX = 200;
-let flyY = 200;
+flyX = 200;
+flyY = 200;
 const FLY_WIDTH = 18;
 const FLY_HEIGHT = 18;  
-let randomLoc = Math.floor(Math.random() * 19);
-let flyPIX = document.getElementById('flyPIX');
+randomLoc = Math.floor(Math.random() * 19);
+flyPIX = document.getElementById('flyPIX');
 
 initializeGame();
 
@@ -73,13 +66,12 @@ function updateCanvas () {
   drawWormEyes();
   eatFly();
   gameOver();
-  useWormDirectionVariableToMoveWorm();
+  useWormDirectionVariableMoveWorm();
   headBump();
-  
 }
 
 function drawBackground() {
-  let bgImg = new Image();
+   bgImg = new Image();
   bgImg.src = '/assets/grass4.jpg';
   ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
@@ -96,7 +88,7 @@ function drawGame() {
 }
 
 function drawGrid() {
-  for (var i=19; i<=800; i += 20)
+  for (i=19; i<=800; i += 20)
   {
     //vertical lines
     ctx.moveTo(i,0);
@@ -216,8 +208,8 @@ function eatFly() {
 }
 
 function flyMovement() {
-  var flyDirection = ['up', 'down', 'left', 'right']
-    let flyCoordinates = flyDirection[Math.floor(Math.random() * flyDirection.length)];
+  flyDirection = ['up', 'down', 'left', 'right']
+     flyCoordinates = flyDirection[Math.floor(Math.random() * flyDirection.length)];
     if (flyCoordinates === 'up') {
       flyY = flyY - 20;
     } else if (flyCoordinates === 'down') {
@@ -334,12 +326,12 @@ function setWormDirectionVariable(event) {
   }
 }
 
-function useWormDirectionVariableToMoveWorm () {
+function useWormDirectionVariableMoveWorm () {
   if (wormDirection === '') {
     return;
   } 
 
-  for (let i = worm.length - 1; i > 0; i--) {
+  for ( i = worm.length - 1; i > 0; i--) {
     // debugger;
     const previousPartIndex = i - 1;
     // console.log('previousPartIndex: ', previousPartIndex);
