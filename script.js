@@ -13,7 +13,7 @@ let topScore = 0;
 scoreNumber = document.getElementById('score');
 highScoreNumber = document.getElementById('highScore');
 boundaryX = 600;
-boundaryY = 600;
+boundaryY = 5600;
 
 //worm head and body coordinates
 let worm = [
@@ -28,7 +28,7 @@ let wormWidth = 18;
 let wormHeight = 18;
 const SNAKE_MOVEMENT = 20;
 let wormDirection = ''; //set to '' to have worm idle at start of game
-let wormSkinColor = '#FF69B4';
+let wormSkinColor = '#dd6287  ';
 let wormEyeSize = 5;
 let wormEyeA = 2;
 let wormEyeB = 11; 
@@ -45,7 +45,8 @@ let flyPIX = document.getElementById('flyPIX');
 initializeGame();
 
 function initializeGame() {
-window.onload = function() {
+window.onload = function(event) {
+  event.preventDefault();
   canvas.addEventListener('keydown', setWormDirectionVariable);
   
   setInterval(function() {
@@ -74,22 +75,18 @@ function updateCanvas () {
   gameOver();
   useWormDirectionVariableToMoveWorm();
   headBump();
-  // console.log(worm);
-  // console.log(worm[0]);
-  // console.log(worm[0].x + ", " + worm[0].y);
   
 }
 
 function drawBackground() {
-  var gradient = ctx.createRadialGradient(300, 250, 100, 350, 200, 250);
-  gradient.addColorStop(0, '#2B3B0A');
-  gradient.addColorStop(1, '#562E17');
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, canvas.width,canvas.height);
+  let bgImg = new Image();
+  bgImg.src = '/assets/grass4.jpg';
+  ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+
 }
 
 function drawFly() {
-  // drawWormRectangles(flyX,flyY,FLY_WIDTH,FLY_HEIGHT,'#2E2B29');
+
   ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
 }
 
