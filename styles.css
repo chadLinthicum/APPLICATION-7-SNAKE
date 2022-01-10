@@ -11,7 +11,7 @@ canvas {
   margin-right: auto;
   display: flex;
   outline: none; /* will remove white active index line*/
-  
+  border-radius: 20px;
 }
 
 #logo {
