@@ -267,7 +267,7 @@ function gameOver() {
 function headBump(){ 
   for (i = 4; i < worm.length; i++){
     if (worm[0].x === worm[i].x && worm[0].y === worm[i].y) {
-      alert ("Doh! You can ran into yourself!");
+      alert ("Doh! You ran into yourself!");
       reset();
     }
   }
