@@ -1,6 +1,6 @@
 const DEBUG = false; 
 
-canvas = document.getElementById('gameCanvas');
+canvas = document.getElementById('game-canvas');
 ctx = canvas.getContext('2d');
 // set canvas to be a tab stop
 canvas.setAttribute('tabindex','0');
@@ -11,9 +11,10 @@ canvas.focus();
 score = 0;
 topScore = 0;
 scoreNumber = document.getElementById('score');
-highScoreNumber = document.getElementById('highScore');
+highScoreNumber = document.getElementById('high-score');
 boundaryX = 600;
 boundaryY = 600;
+bgImg = document.getElementById('grass');
 
 //worm attributes
 worm = [{ x : 100, y : 100, }];
@@ -71,20 +72,17 @@ function updateCanvas () {
 }
 
 function drawBackground() {
-   bgImg = new Image();
-  bgImg.src = '/assets/grass4.jpg';
   ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
 }
 
 function drawFly() {
-
   ctx.drawImage(flyPIX,flyX,flyY,FLY_WIDTH,FLY_HEIGHT);
 }
 
 function drawGame() {
   drawBackground();
-  // drawGrid(); 
+  // drawGrid(); //this is causing processor slowdown, will revisit another time
 }
 
 function drawGrid() {
@@ -236,7 +234,7 @@ function flySpawn() {
   // debugger;
   //algorithm that generates fly coordinates of 20 within range of 1-380
   const flyCoordinate = 20;
-  const specialRandom = (num = 1, limit = 380) => {
+  const specialRandom = (num = 1, limit = 600) => {
   const random = Math.random() * limit;
   const res = Math.round( random / num ) * num;
   return res;
@@ -267,7 +265,7 @@ function gameOver() {
 }
 
 function headBump(){ 
-  for (i = 1; i < worm.length; i++){
+  for (i = 4; i < worm.length; i++){
     if (worm[0].x === worm[i].x && worm[0].y === worm[i].y) {
       alert ("Doh! You can ran into yourself!");
       reset();
