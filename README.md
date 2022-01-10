@@ -1,6 +1,13 @@
+<p align="center">
+
 ![logo](https://user-images.githubusercontent.com/10480470/148709715-449446b6-ce0e-4622-8a8e-78a2a2aa5627.png)
 
-Description: The classic game of Snake but with a twist! You're a worm and must catch the fly while he's on the run!!
+**Description:**  
+The classic game of Snake but with a twist! You're a worm and must catch the fly while he's on the run!!
 
-![alt text](https://user-images.githubusercontent.com/10480470/148709995-d709a0d0-0d72-4ccd-ae71-a7d905e5cab6.gif "Logo Title Text 1")
-Installation:
+<img src="https://user-images.githubusercontent.com/10480470/148710576-1ade5140-c85a-42f4-a8fe-07dda2735865.gif" width="300">
+
+**Installation:**  
+Download the repository and simply open the index.html file. 
+
+ </p>
