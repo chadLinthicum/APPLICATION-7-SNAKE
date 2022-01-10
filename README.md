@@ -2,6 +2,5 @@
 
 Description: The classic game of Snake but with a twist! You're a worm and must catch the fly while he's on the run!!
 
-[gameplay](https://user-images.githubusercontent.com/10480470/148709995-d709a0d0-0d72-4ccd-ae71-a7d905e5cab6.gif)
-
+![alt text](https://user-images.githubusercontent.com/10480470/148709995-d709a0d0-0d72-4ccd-ae71-a7d905e5cab6.gif "Logo Title Text 1")
 Installation:
