@@ -5,7 +5,9 @@
  <br>
  <img src="https://user-images.githubusercontent.com/10480470/148710576-1ade5140-c85a-42f4-a8fe-07dda2735865.gif" width="300"><br>
  <br>
- <b>Installation:</b> Download the repository and<br>simply open the index.html file.<br>
+ <b>Download: </b><a href="https://github.com/chadLinthicum/GAME_WormVsFly-VanillaJS">Here</a><br>
+ <br>
+ <b>Installation:</b> Download the repository and<br> open the index.html file.<br>
  <br>
  <b>Logistics:</b> This project's practices include using the canvas element and <br>utilization of for-loops and advanced array methods for the game mechanics. <br>
  <br>
