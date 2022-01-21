@@ -8,5 +8,5 @@
  <b>Installation:</b> Download the repository and<br>simply open the index.html file.<br>
  <br>
  <b>Author:</b> Chad Linthicum
- <br> <a href="www.linkedin.com/in/chad-a-linthicum">Linked-In<a>
+ <br> <a href="https://www.linkedin.com/in/chad-a-linthicum/">Linked-In<a>
 </p>
