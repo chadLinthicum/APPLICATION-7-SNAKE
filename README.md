@@ -9,7 +9,7 @@
  <br>
  <b>Installation:</b> Download the repository and<br> open the index.html file.<br>
  <br>
- <b>Logistics:</b> This project's practices include using the canvas element and <br>utilization of for-loops and advanced array methods for the game mechanics. <br>
+ <b>Logistics:</b> Project consists of JS, HTML, and CSS. Practices include using the canvas element and <br>utilization of for-loops and advanced array methods for the game mechanics. <br>
  <br>
  <b>Author:</b> Chad Linthicum<br>
  <a href="https://www.linkedin.com/in/chad-a-linthicum/">Linked-In<a>
