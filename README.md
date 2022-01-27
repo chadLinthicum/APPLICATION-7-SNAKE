@@ -5,6 +5,8 @@
  <br>
  <img src="https://user-images.githubusercontent.com/10480470/148710576-1ade5140-c85a-42f4-a8fe-07dda2735865.gif" width="300"><br>
  <br>
+ <b>Play In Browser: </b><a href="https://chadlinthicum.github.io/GAME_WormVsFly/"> Here</a><br>
+ <br>
  <b>Download: </b><a href="https://github.com/chadLinthicum/GAME_WormVsFly-VanillaJS">Here</a><br>
  <br>
  <b>Installation:</b> Download the repository and<br> open the index.html file.<br>
