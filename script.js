@@ -330,20 +330,72 @@ window.addEventListener("gamepadconnected", (e) => {
   console.log(e.gamepad);
 });
 
+window.addEventListener("keydown", (e) => {
+  console.log(e);
+});
+
+setTimeout(upPress, 1000);
+
+function upPress() {
+  window.dispatchEvent(
+    new KeyboardEvent("keydown", {
+      key: "ArrowUp",
+      altKey: false,
+      bubbles: true,
+      cancelBubble: false,
+      cancelable: true,
+      charCode: 0,
+      code: "ArrowUp",
+      composed: true,
+      ctrlKey: false,
+      currentTarget: null,
+      defaultPrevented: false,
+      detail: 0,
+      eventPhase: 0,
+      isComposing: false,
+      key: "ArrowUp",
+      keyCode: 38,
+      location: 0,
+      metaKey: false,
+      repeat: false,
+      returnValue: true,
+      shiftKey: false,
+      timeStamp: 22192.80000001192,
+      type: "keydown",
+      which: 38,
+    })
+  );
+}
+
 function update() {
   const gamepads = navigator.getGamepads();
   if (gamepads[0]) {
     if (gamepads[0].buttons[12].touched || gamepads[0].axes[1] < -0.3) {
-      wormDirection = "up";
+      if (isDirection("down", "up")) {
+        wormDirection = "up";
+      }
     }
     if (gamepads[0].buttons[13].touched || gamepads[0].axes[1] > 0.3) {
-      wormDirection = "down";
+      if (isDirection("down", "up")) {
+        wormDirection = "down";
+      }
     }
     if (gamepads[0].buttons[14].touched || gamepads[0].axes[0] < -0.3) {
-      wormDirection = "left";
+      if (isDirection("right", "left")) {
+        wormDirection = "left";
+      }
     }
     if (gamepads[0].buttons[15].touched || gamepads[0].axes[0] > 0.3) {
-      wormDirection = "right";
+      if (isDirection("right", "left")) {
+        wormDirection = "right";
+      }
+    }
+    if (gamepads[0].buttons[0].touched) {
+      window.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: 91,
+        })
+      );
     }
   }
 
